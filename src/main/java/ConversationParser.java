@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,20 +8,54 @@ import org.apache.commons.io.FilenameUtils;
 
 public class ConversationParser {
     /**
+     * Gets relevant information from a message and returns it in the form of a MessageDataDocument
+     * object. This includes the conversation name, group type, and message content.
+     *
+     * @param message           A JsonNode containing the content of a message. This either contains a string
+     *                          or is null.
+     * @param conversationName  A JsonNode containing the name of the conversation.
+     * @param groupType         A JsonNode containing the group type of the conversation.
+     * @return                  A MessageDataDocument that contains all the relevant data from this message.
+     */
+    public static MessageDataDocument getMessageData(JsonNode message, JsonNode conversationName, JsonNode groupType) {
+        // We need to get the sender name, timestamp, and content from each message.
+        String senderName = message.get(ConversationParserConstants.JSON_SENDER_FIELD_NAME).asText();
+        long timestamp = message.get(ConversationParserConstants.JSON_TIMESTAMP_FIELD).asLong();
+        JsonNode content = ConversationParserUtil.isSafeAndGet(message,
+                ConversationParserConstants.JSON_CONTENT_FIELD_NAME);
+
+        // Sender name and timestamp will always have a value, but content may be null- so
+        // we take an extra step to ensure it is handled without a null pointer exception.
+        String contentString = (content == null) ? null : content.asText();
+
+        return new MessageDataDocument(conversationName.asText(), groupType.asText(), senderName,
+                timestamp, contentString);
+    }
+
+    /**
      * Takes an individual JSON file that contains messages and parses this file for data.
      *
      * @param messageJson   A JSON file containing messages from a Facebook Messenger conversation.
+     * @return              An ArrayList<MessageDataDocument> that contains MessageDataDocument objects
+     *                      that contain the data from each message from the JSON file
      */
-    public static void parseMessageJson(File messageJson) throws IOException {
+    public static ArrayList<MessageDataDocument> getFileMessagesData(File messageJson) throws IOException {
+        ArrayList<MessageDataDocument> messageDataDocuments = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
         JsonNode rootNode = mapper.readTree(messageJson);
 
-        if (ConversationParserUtil.isSafeToAccess(rootNode, ConversationParserConstants.MESSAGES_JSON_FIELD_NAME)) {
-            JsonNode messages = rootNode.get(ConversationParserConstants.MESSAGES_JSON_FIELD_NAME);
+        // Grab data from necessary fields. We need the conversation name, group type, and the array of messages.
+        JsonNode conversationName = ConversationParserUtil.isSafeAndGet(rootNode, ConversationParserConstants.JSON_CONVERSATION_FIELD_NAME);
+        JsonNode groupType = ConversationParserUtil.isSafeAndGet(rootNode, ConversationParserConstants.JSON_GROUP_CHAT_FIELD_NAME);
+        JsonNode messages = ConversationParserUtil.isSafeAndGet(rootNode, ConversationParserConstants.JSON_MESSAGES_FIELD_NAME);
+
+        if (conversationName != null && groupType != null && messages != null) {
             for (JsonNode message : messages) {
-                System.out.println(message.get("content").asText());
+                messageDataDocuments.add(getMessageData(message, conversationName, groupType));
             }
         }
+
+        return messageDataDocuments;
     }
 
     /**
@@ -38,7 +73,8 @@ public class ConversationParser {
         // JSON, we send it to a function that parses that file and send data to Elasticsearch.
         for (File file : conversation.listFiles()) {
             if (FilenameUtils.getExtension(file.getName()).equals(ConversationParserConstants.MESSAGES_EXTENSION)) {
-                parseMessageJson(file);
+                ArrayList<MessageDataDocument> messageDataDocuments = getFileMessagesData(file);
+                ElasticsearchWriter.writeMessageDataDocuments(messageDataDocuments);
             }
         }
     }
