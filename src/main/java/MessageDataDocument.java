@@ -106,24 +106,4 @@ public class MessageDataDocument {
         }
         return currentString;
     }
-
-    public Boolean getGroupChat() {
-        return isGroupChat;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public String getConversationName() {
-        return conversationName;
-    }
-
-    public String getSenderName() {
-        return senderName;
-    }
 }
