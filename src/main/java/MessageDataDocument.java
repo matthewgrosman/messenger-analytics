@@ -2,6 +2,7 @@ import org.elasticsearch.xcontent.XContentBuilder;
 import org.elasticsearch.xcontent.XContentFactory;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 public class MessageDataDocument {
@@ -22,11 +23,11 @@ public class MessageDataDocument {
      */
     public MessageDataDocument(String conversationName, String groupType, String senderName, long timestamp,
                                String content) {
-        this.conversationName = conversationName;
+        this.conversationName = ensureSingleQuoteUTF8(conversationName);
         this.isGroupChat = isGroupTypeGroupChat(groupType);
         this.senderName = senderName;
         this.date = getTimestampAsDate(timestamp);
-        this.content = content;
+        this.content = ensureSingleQuoteUTF8(content);
     }
 
     /**
@@ -81,5 +82,48 @@ public class MessageDataDocument {
      */
     private Boolean isGroupTypeGroupChat(String groupType) {
         return groupType.equals(ConversationParserConstants.GROUP_CHAT_TYPE_NAME);
+    }
+
+    /**
+     * Ensures that the character "'" is encoded correctly. I ran into an issue where Jackson
+     * was not parsing "'" correctly and would produce "â" instead of "'". This function
+     * checks if the string contains "â", and if it does, encodes the string into proper
+     * UTF-8. This also handles correctly encoding emojis- as previously they would show up
+     * as similar odd characters like "'" did.
+     *
+     * NOTE: I checked online and couldn't seem to find a way to change this in a Jackson
+     * setting- so this is my best solution for the moment. Ideally I would like to remove
+     * this function and find some kind of parameter I can set when using Jackson to decode
+     * the JSON that handles this. But, oh well.
+     *
+     * @param currentString A String that needs to be checked for UTF-8 compliance
+     * @return
+     */
+    private String ensureSingleQuoteUTF8(String currentString) {
+        if (currentString != null && currentString.contains("â\u0080\u0099")) {
+            byte[] stringBytes = currentString.getBytes(StandardCharsets.ISO_8859_1);
+            return new String(stringBytes, StandardCharsets.UTF_8);
+        }
+        return currentString;
+    }
+
+    public Boolean getGroupChat() {
+        return isGroupChat;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public String getConversationName() {
+        return conversationName;
+    }
+
+    public String getSenderName() {
+        return senderName;
     }
 }
