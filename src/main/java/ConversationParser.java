@@ -95,10 +95,12 @@ public class ConversationParser {
 
     public static void main(String[] args) throws IOException {
         File[] conversations = getConversations();
+        ElasticsearchWriter.getElasticsearchConnection();
 
         for (File conversation : conversations) {
             parseConversation(conversation);
         }
-    }
 
+        ElasticsearchWriter.closeElasticsearchConnection();
+    }
 }

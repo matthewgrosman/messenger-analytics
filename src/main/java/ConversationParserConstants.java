@@ -15,13 +15,17 @@ public class ConversationParserConstants {
     public static final String JSON_TIMESTAMP_FIELD = "timestamp_ms";
     public static final String JSON_CONTENT_FIELD_NAME = "content";
 
-    // The field names for message data documents to be written to Elasticsearch
+    // The field names for message data documents to be written to Elasticsearch.
     public static final String ES_CONVERSATION_FIELD_NAME = "conversation_name";
     public static final String ES_GROUP_CHAT_FIELD_NAME = "is_group_chat";
     public static final String ES_SENDER_FIELD_NAME = "sender_name";
     public static final String ES_DATE_FIELD_NAME = "date_sent";
     public static final String ES_CONTENT_FIELD_NAME = "content_name";
 
-    // The conversation types for group chats and regular chats
+    // The conversation types for group chats and regular chats.
     public static final String GROUP_CHAT_TYPE_NAME = "RegularGroup";
+
+    // The host name and port number to connect to the Elasticsearch cluster.
+    public static final String ES_HOST_NAME = "localhost";
+    public static final int ES_PORT = 9200;
 }
