@@ -74,7 +74,7 @@ public class ConversationParser {
         for (File file : conversation.listFiles()) {
             if (FilenameUtils.getExtension(file.getName()).equals(ConversationParserConstants.MESSAGES_EXTENSION)) {
                 ArrayList<MessageDataDocument> messageDataDocuments = getFileMessagesData(file);
-                ElasticsearchWriter.writeMessageDataDocuments(messageDataDocuments);
+                //ElasticsearchWriter.writeMessageDataDocuments(messageDataDocuments);
             }
         }
     }
@@ -95,12 +95,13 @@ public class ConversationParser {
 
     public static void main(String[] args) throws IOException {
         File[] conversations = getConversations();
-        ElasticsearchWriter.getElasticsearchConnection();
+        // ElasticsearchWriter.getElasticsearchConnection();
 
         for (File conversation : conversations) {
             parseConversation(conversation);
         }
 
-        ElasticsearchWriter.closeElasticsearchConnection();
+        // ElasticsearchWriter.testWrite();
+        // ElasticsearchWriter.closeElasticsearchConnection();
     }
 }

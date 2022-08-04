@@ -30,6 +30,46 @@ public class MessageDataDocument {
         this.content = ensureSingleQuoteUTF8(content);
     }
 
+    public String getSenderName() {
+        return this.senderName;
+    }
+
+    public String getConversationName() {
+        return this.conversationName;
+    }
+
+    public String getContent() {
+        return this.content;
+    }
+
+    public Date getDate() {
+        return this.date;
+    }
+
+    public Boolean getGroupChat() {
+        return this.isGroupChat;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setConversationName(String conversationName) {
+        this.conversationName = conversationName;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setGroupChat(Boolean groupChat) {
+        this.isGroupChat = groupChat;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
+
     /**
      * Creates an XContentBuilder object that contains all of the information for the document
      * we want to send to Elasticsearch. This object can be directly written to Elasticsearch
@@ -38,26 +78,26 @@ public class MessageDataDocument {
      * @return              An XContentBuilder object containing all the message data to send to Elasticsearch.
      * @throws IOException  Can throw an IOException when calling "XContentFactory.jsonBuilder()".
      */
-    public XContentBuilder getMessageDataDocument() throws IOException {
-        XContentBuilder builder = XContentFactory.jsonBuilder();
-        builder.startObject();
-
-        builder.field(ConversationParserConstants.ES_CONVERSATION_FIELD_NAME, this.conversationName);
-        builder.field(ConversationParserConstants.ES_GROUP_CHAT_FIELD_NAME, this.isGroupChat);
-        builder.field(ConversationParserConstants.ES_SENDER_FIELD_NAME, this.senderName);
-        builder.timeField(ConversationParserConstants.ES_DATE_FIELD_NAME, this.date);
-
-        // A message may have no content- in this case we can put it as a null value.
-        if (this.content != null) {
-            builder.field(ConversationParserConstants.ES_CONTENT_FIELD_NAME, this.content);
-        }
-        else {
-            builder.nullField(ConversationParserConstants.ES_CONTENT_FIELD_NAME);
-        }
-
-        builder.endObject();
-        return builder;
-    }
+//    public XContentBuilder getMessageDataDocument() throws IOException {
+//        XContentBuilder builder = XContentFactory.jsonBuilder();
+//        builder.startObject();
+//
+//        builder.field(ConversationParserConstants.ES_CONVERSATION_FIELD_NAME, this.conversationName);
+//        builder.field(ConversationParserConstants.ES_GROUP_CHAT_FIELD_NAME, this.isGroupChat);
+//        builder.field(ConversationParserConstants.ES_SENDER_FIELD_NAME, this.senderName);
+//        builder.timeField(ConversationParserConstants.ES_DATE_FIELD_NAME, this.date);
+//
+//        // A message may have no content- in this case we can put it as a null value.
+//        if (this.content != null) {
+//            builder.field(ConversationParserConstants.ES_CONTENT_FIELD_NAME, this.content);
+//        }
+//        else {
+//            builder.nullField(ConversationParserConstants.ES_CONTENT_FIELD_NAME);
+//        }
+//
+//        builder.endObject();
+//        return builder;
+//    }
 
     /**
      * Given a timestamp, return the date as a standard Java Date object.
