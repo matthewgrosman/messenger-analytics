@@ -25,10 +25,6 @@ public final class Constants {
     // The conversation types for group chats and regular chats.
     public static final String GROUP_CHAT_TYPE_NAME = "RegularGroup";
 
-    // The host name and port number to connect to the Elasticsearch cluster.
-    public static final String ES_HOST_NAME = "localhost";
-    public static final int ES_PORT = 9200;
-
     // The database and collection names for MongoDB
     public static final String MONGO_DATABASE_NAME = "messenger-data";
     public static final String MONGO_COLLECTION_NAME = "messages";
