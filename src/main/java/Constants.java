@@ -1,4 +1,4 @@
-public class ConversationParserConstants {
+public final class Constants {
     // The folder holding all Facebook Messenger conversations.
     public static final String MESSAGES_FOLDER = "/Users/matthew/Documents/Message-Data-2022/messages-json/inbox/";
 
@@ -28,4 +28,8 @@ public class ConversationParserConstants {
     // The host name and port number to connect to the Elasticsearch cluster.
     public static final String ES_HOST_NAME = "localhost";
     public static final int ES_PORT = 9200;
+
+    // The database and collection names for MongoDB
+    public static final String MONGO_DATABASE_NAME = "messenger-data";
+    public static final String MONGO_COLLECTION_NAME = "messages";
 }

@@ -19,10 +19,10 @@ public class ConversationParser {
      */
     public static MessageDataDocument getMessageData(JsonNode message, JsonNode conversationName, JsonNode groupType) {
         // We need to get the sender name, timestamp, and content from each message.
-        String senderName = message.get(ConversationParserConstants.JSON_SENDER_FIELD_NAME).asText();
-        long timestamp = message.get(ConversationParserConstants.JSON_TIMESTAMP_FIELD).asLong();
+        String senderName = message.get(Constants.JSON_SENDER_FIELD_NAME).asText();
+        long timestamp = message.get(Constants.JSON_TIMESTAMP_FIELD).asLong();
         JsonNode content = ConversationParserUtil.isSafeAndGet(message,
-                ConversationParserConstants.JSON_CONTENT_FIELD_NAME);
+                Constants.JSON_CONTENT_FIELD_NAME);
 
         // Sender name and timestamp will always have a value, but content may be null- so
         // we take an extra step to ensure it is handled without a null pointer exception.
@@ -45,9 +45,9 @@ public class ConversationParser {
         JsonNode rootNode = mapper.readTree(messageJson);
 
         // Grab data from necessary fields. We need the conversation name, group type, and the array of messages.
-        JsonNode conversationName = ConversationParserUtil.isSafeAndGet(rootNode, ConversationParserConstants.JSON_CONVERSATION_FIELD_NAME);
-        JsonNode groupType = ConversationParserUtil.isSafeAndGet(rootNode, ConversationParserConstants.JSON_GROUP_CHAT_FIELD_NAME);
-        JsonNode messages = ConversationParserUtil.isSafeAndGet(rootNode, ConversationParserConstants.JSON_MESSAGES_FIELD_NAME);
+        JsonNode conversationName = ConversationParserUtil.isSafeAndGet(rootNode, Constants.JSON_CONVERSATION_FIELD_NAME);
+        JsonNode groupType = ConversationParserUtil.isSafeAndGet(rootNode, Constants.JSON_GROUP_CHAT_FIELD_NAME);
+        JsonNode messages = ConversationParserUtil.isSafeAndGet(rootNode, Constants.JSON_MESSAGES_FIELD_NAME);
 
         if (conversationName != null && groupType != null && messages != null) {
             for (JsonNode message : messages) {
@@ -72,9 +72,9 @@ public class ConversationParser {
         // this filename extension to identify them). Once we have identified the message
         // JSON, we send it to a function that parses that file and send data to Elasticsearch.
         for (File file : conversation.listFiles()) {
-            if (FilenameUtils.getExtension(file.getName()).equals(ConversationParserConstants.MESSAGES_EXTENSION)) {
+            if (FilenameUtils.getExtension(file.getName()).equals(Constants.MESSAGES_EXTENSION)) {
                 ArrayList<MessageDataDocument> messageDataDocuments = getFileMessagesData(file);
-                ElasticsearchWriter.writeMessageDataDocuments(messageDataDocuments);
+                MongoDBWriter.writeMessageDataDocuments(messageDataDocuments);
             }
         }
     }
@@ -84,7 +84,7 @@ public class ConversationParser {
      * conversation, and calls necessary functions to gather data.
      */
     public static File[] getConversations() {
-        File messagesDirectory = new File(ConversationParserConstants.MESSAGES_FOLDER);
+        File messagesDirectory = new File(Constants.MESSAGES_FOLDER);
 
         // This line removes the '.DS_Store' file from being considered a conversation while
         // returning the valid conversations. This is, to my knowledge, a Mac OS feature where
@@ -95,12 +95,14 @@ public class ConversationParser {
 
     public static void main(String[] args) throws IOException {
         File[] conversations = getConversations();
-        ElasticsearchWriter.getElasticsearchConnection();
+
+        MongoDBWriter.getMongoDBConnection();
 
         for (File conversation : conversations) {
             parseConversation(conversation);
+            System.out.println("File parsed");
         }
 
-        ElasticsearchWriter.closeElasticsearchConnection();
+        MongoDBWriter.closeMongoDBConnection();
     }
 }

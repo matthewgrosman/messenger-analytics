@@ -1,7 +1,5 @@
-import org.elasticsearch.xcontent.XContentBuilder;
-import org.elasticsearch.xcontent.XContentFactory;
+import org.bson.Document;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
@@ -31,32 +29,26 @@ public class MessageDataDocument {
     }
 
     /**
-     * Creates an XContentBuilder object that contains all of the information for the document
-     * we want to send to Elasticsearch. This object can be directly written to Elasticsearch
-     * without any further modification.
+     * Creates a BSON document that contains all of the information for the document
+     * we want to send to MongoDB.
      *
-     * @return              An XContentBuilder object containing all the message data to send to Elasticsearch.
-     * @throws IOException  Can throw an IOException when calling "XContentFactory.jsonBuilder()".
+     * @return  A BSON document containing all the message data to send to MongoDB.
      */
-    public XContentBuilder getMessageDataDocument() throws IOException {
-        XContentBuilder builder = XContentFactory.jsonBuilder();
-        builder.startObject();
+    public Document getBSONDocument() {
+        Document document = new Document();
+        document.append(Constants.ES_CONVERSATION_FIELD_NAME, this.conversationName);
+        document.append(Constants.ES_GROUP_CHAT_FIELD_NAME, this.isGroupChat);
+        document.append(Constants.ES_SENDER_FIELD_NAME, this.senderName);
+        document.append(Constants.ES_DATE_FIELD_NAME, this.date);
 
-        builder.field(ConversationParserConstants.ES_CONVERSATION_FIELD_NAME, this.conversationName);
-        builder.field(ConversationParserConstants.ES_GROUP_CHAT_FIELD_NAME, this.isGroupChat);
-        builder.field(ConversationParserConstants.ES_SENDER_FIELD_NAME, this.senderName);
-        builder.timeField(ConversationParserConstants.ES_DATE_FIELD_NAME, this.date);
-
-        // A message may have no content- in this case we can put it as a null value.
+        // A message may or may not have content. If it does, we add an appropriate field,
+        // but if the message is empty, we do not add a field for it (MongoDB treats a non-existent
+        // field as null for our purposes).
         if (this.content != null) {
-            builder.field(ConversationParserConstants.ES_CONTENT_FIELD_NAME, this.content);
-        }
-        else {
-            builder.nullField(ConversationParserConstants.ES_CONTENT_FIELD_NAME);
+            document.append(Constants.ES_CONTENT_FIELD_NAME, this.content);
         }
 
-        builder.endObject();
-        return builder;
+        return document;
     }
 
     /**
@@ -81,7 +73,7 @@ public class MessageDataDocument {
      *                  while "false" means the conversation is not a group chat.
      */
     private Boolean isGroupTypeGroupChat(String groupType) {
-        return groupType.equals(ConversationParserConstants.GROUP_CHAT_TYPE_NAME);
+        return groupType.equals(Constants.GROUP_CHAT_TYPE_NAME);
     }
 
     /**
