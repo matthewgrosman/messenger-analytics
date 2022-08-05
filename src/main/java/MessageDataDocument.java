@@ -36,16 +36,16 @@ public class MessageDataDocument {
      */
     public Document getBSONDocument() {
         Document document = new Document();
-        document.append(Constants.ES_CONVERSATION_FIELD_NAME, this.conversationName);
-        document.append(Constants.ES_GROUP_CHAT_FIELD_NAME, this.isGroupChat);
-        document.append(Constants.ES_SENDER_FIELD_NAME, this.senderName);
-        document.append(Constants.ES_DATE_FIELD_NAME, this.date);
+        document.append(Constants.MONGO_CONVERSATION_FIELD_NAME, this.conversationName);
+        document.append(Constants.MONGO_GROUP_CHAT_FIELD_NAME, this.isGroupChat);
+        document.append(Constants.MONGO_SENDER_FIELD_NAME, this.senderName);
+        document.append(Constants.MONGO_DATE_FIELD_NAME, this.date);
 
         // A message may or may not have content. If it does, we add an appropriate field,
         // but if the message is empty, we do not add a field for it (MongoDB treats a non-existent
         // field as null for our purposes).
         if (this.content != null) {
-            document.append(Constants.ES_CONTENT_FIELD_NAME, this.content);
+            document.append(Constants.MONGO_CONTENT_FIELD_NAME, this.content);
         }
 
         return document;

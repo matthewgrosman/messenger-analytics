@@ -60,7 +60,7 @@ public class ConversationParser {
 
     /**
      * Takes in a conversation and calls necessary functions to parse conversation for data to
-     * send to Elasticsearch.
+     * send to MongoDB.
      *
      * @param conversation  A File that contains all the conversation data for a specific chat
      *                      on Facebook Messenger.
@@ -70,7 +70,7 @@ public class ConversationParser {
         // gifs and other information. We just want the actual conversations- these are
         // stored in JSON files (they are the only file stored as a JSON, so we can use
         // this filename extension to identify them). Once we have identified the message
-        // JSON, we send it to a function that parses that file and send data to Elasticsearch.
+        // JSON, we send it to a function that parses that file and send data to MongoDB.
         for (File file : conversation.listFiles()) {
             if (FilenameUtils.getExtension(file.getName()).equals(Constants.MESSAGES_EXTENSION)) {
                 ArrayList<MessageDataDocument> messageDataDocuments = getFileMessagesData(file);
@@ -100,7 +100,6 @@ public class ConversationParser {
 
         for (File conversation : conversations) {
             parseConversation(conversation);
-            System.out.println("File parsed");
         }
 
         MongoDBWriter.closeMongoDBConnection();

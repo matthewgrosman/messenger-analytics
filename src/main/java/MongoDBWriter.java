@@ -25,7 +25,7 @@ public class MongoDBWriter {
     /**
      * Writes messageDataDocuments to MongoDB.
      *
-     * @param messageDataDocuments
+     * @param messageDataDocuments  An ArrayList of MessageDataDocuments that need to be written to MongoDB.
      */
     public static void writeMessageDataDocuments(ArrayList<MessageDataDocument> messageDataDocuments) {
         for (MessageDataDocument document : messageDataDocuments) {
