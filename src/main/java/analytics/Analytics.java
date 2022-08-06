@@ -17,15 +17,15 @@ public class Analytics {
      */
     public static void getIndividualConversationData(String conversationName) {
         // First, check if the conversation name entered is a valid conversation.
-        if (MongoDBClient.isConversationValid(conversationName)) {
+        if (IndividualConversationMongoDB.isConversationValid(conversationName)) {
             // Get number of total messages sent
-            long numberOfMessages = MongoDBClient.getNumberOfMessages(conversationName);
+            long numberOfMessages = IndividualConversationMongoDB.getNumberOfMessages(conversationName);
             System.out.println("Total number of messages sent: " + numberOfMessages);
 
             System.out.println();
 
             // Get how many messages each person has sent (as a number and percentage)
-            HashMap<String, Integer> messagesPerPerson = MongoDBClient.getNumberOfMessagesPerPerson(conversationName);
+            HashMap<String, Integer> messagesPerPerson = IndividualConversationMongoDB.getNumberOfMessagesPerPerson(conversationName);
             for (String key : messagesPerPerson.keySet()) {
                 System.out.println("Name: " + key + ", Number of Messages: " + messagesPerPerson.get(key));
             }
@@ -33,7 +33,7 @@ public class Analytics {
             System.out.println();
 
             // Get how many messages have been sent each month (as a number and percentage)
-            HashMap<String, Integer> messagePerMonth = MongoDBClient.getNumberOfMessagesPerMonth(conversationName);
+            HashMap<String, Integer> messagePerMonth = IndividualConversationMongoDB.getNumberOfMessagesPerMonth(conversationName);
             for (String key : messagePerMonth.keySet()) {
                 System.out.println("Month: " + key + ", Number of Messages: " + messagePerMonth.get(key));
             }
@@ -51,7 +51,7 @@ public class Analytics {
     public static void main(String[] args) {
         MongoDBClient.getMongoDBConnection();
 
-        getIndividualConversationData("TEST-VALUE");
+        getIndividualConversationData("BOMB-FIRE");
 
         MongoDBClient.closeMongoDBConnection();
     }

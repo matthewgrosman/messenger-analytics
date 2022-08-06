@@ -1,18 +1,14 @@
 package shared;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.client.*;
 
 import org.bson.Document;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 
 public class MongoDBClient {
     private static MongoClient mongoClient;
-    private static MongoCollection<Document> messagesCollection;
+    public static MongoCollection<Document> messagesCollection;
 
     /**
      * Gets a connection to the local MongoDB instance. We need to access the database "messenger-data",
@@ -35,107 +31,9 @@ public class MongoDBClient {
     }
 
     /**
-     * Takes in a user entered conversation name and checks to see if that conversation exists in
-     * the database.
-     *
-     * @param conversationName  A String representing the name of the conversation user wants analytics for.
-     * @return                  A boolean denoting if the conversation is valid or not.
-     */
-    public static boolean isConversationValid(String conversationName) {
-        // Check if at least one message has been sent in a conversation with this conversation name.
-        BasicDBObject query = new BasicDBObject();
-        query.put(Constants.MONGO_CONVERSATION_FIELD_NAME, conversationName);
-        return messagesCollection.countDocuments(query) > 0;
-    }
-
-    /**
-     * Takes in a conversation name and returns the amount of messages sent in that conversation.
-     *
-     * @param conversationName  A String representing the name of the conversation.
-     * @return                  A long representing the number of messages in the conversation.
-     */
-    public static long getNumberOfMessages(String conversationName) {
-        BasicDBObject query = new BasicDBObject();
-        query.put(Constants.MONGO_CONVERSATION_FIELD_NAME, conversationName);
-        return messagesCollection.countDocuments(query);
-    }
-
-    /**
-     * Takes in a conversation name and returns a HashMap that contains all of the conversation
-     * participants and how many messages they have sent.
-     *
-     * @param conversationName  A String representing the name of the conversation.
-     * @return                  A HashMap containing the names of all participants and the number
-     *                          of messages that they have sent in the conversation.
-     */
-    public static HashMap<String, Integer> getNumberOfMessagesPerPerson(String conversationName) {
-        HashMap<String, Integer> messagesPerPerson = new HashMap<>();
-        FindIterable<Document> messages = getMessagesFromConversation(conversationName);
-
-        for (Document message : messages) {
-            String sender = message.get(Constants.MONGO_SENDER_FIELD_NAME).toString();
-            messagesPerPerson.put(sender, messagesPerPerson.getOrDefault(sender, 0) + 1);
-        }
-
-        return messagesPerPerson;
-    }
-
-    /**
-     * Takes in a conversation name and returns a HashMap that contains all of the months messages
-     * have been sent and how many messages have been sent each month.
-     *
-     * @param conversationName  A String representing the name of the conversation.
-     * @return                  A HashMap containing the months messages have been sent and
-     *                          the amount of messages that sent in each month.
-     */
-    public static HashMap<String, Integer> getNumberOfMessagesPerMonth(String conversationName) {
-        HashMap<String, Integer> messagesPerMonth = new HashMap<>();
-        FindIterable<Document> messages = getMessagesFromConversation(conversationName);
-
-        for (Document message : messages) {
-            String date = getFormattedDate(message);
-            messagesPerMonth.put(date, messagesPerMonth.getOrDefault(date, 0) + 1);
-        }
-
-        return messagesPerMonth;
-    }
-
-    /**
      * Closes the connection to the local MongoDB instance.
      */
     public static void closeMongoDBConnection() {
         mongoClient.close();
-    }
-
-    /**
-     * Filter down database documents to a specific conversation, and return an iterable object
-     * that can be iterated on to access those documents.
-     *
-     * @param conversationName  A String representing the name of the conversation.
-     * @return                  A FindIterable<Document> object that is an iterable of all
-     *                          documents for the given conversation.
-     */
-    private static FindIterable<Document> getMessagesFromConversation(String conversationName) {
-        BasicDBObject query = new BasicDBObject();
-        query.put(Constants.MONGO_CONVERSATION_FIELD_NAME, conversationName);
-        return messagesCollection.find(query);
-    }
-
-    /**
-     * Takes in a document that has a date field and returns a formatted date that contains
-     * only a month and year in the format "MM-YYYY"
-     *
-     * @param document  A message Document that contains a date field.
-     * @return          A String with a formatted date in the form "MM-YYYY".
-     */
-    private static String getFormattedDate(Document document) {
-        Date date = (Date) document.get(Constants.MONGO_DATE_FIELD_NAME);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-
-        int month = calendar.get(Calendar.MONTH) + 1;
-        int year = calendar.get(Calendar.YEAR);
-
-        return month + "-" + year;
     }
 }
