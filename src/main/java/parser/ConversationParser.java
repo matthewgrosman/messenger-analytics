@@ -79,7 +79,7 @@ public class ConversationParser {
         for (File file : conversation.listFiles()) {
             if (FilenameUtils.getExtension(file.getName()).equals(Constants.MESSAGES_EXTENSION)) {
                 ArrayList<Document> messageDataDocuments = getFileMessagesData(file);
-                MongoDBClient.writeMessageDataDocuments(messageDataDocuments);
+                MongoDBWriter.writeMessageDataDocuments(messageDataDocuments);
             }
         }
     }

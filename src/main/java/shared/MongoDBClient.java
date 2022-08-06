@@ -22,15 +22,6 @@ public class MongoDBClient {
     }
 
     /**
-     * Writes messageDataDocuments to MongoDB.
-     *
-     * @param messageDataDocuments  An ArrayList of MessageDataDocuments that need to be written to MongoDB.
-     */
-    public static void writeMessageDataDocuments(ArrayList<Document> messageDataDocuments) {
-        messagesCollection.insertMany(messageDataDocuments);
-    }
-
-    /**
      * Closes the connection to the local MongoDB instance.
      */
     public static void closeMongoDBConnection() {
