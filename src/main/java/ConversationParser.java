@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FilenameUtils;
+import org.bson.Document;
 
 public class ConversationParser {
     /**
@@ -17,7 +18,7 @@ public class ConversationParser {
      * @param groupType         A JsonNode containing the group type of the conversation.
      * @return                  A MessageDataDocument that contains all the relevant data from this message.
      */
-    public static MessageDataDocument getMessageData(JsonNode message, JsonNode conversationName, JsonNode groupType) {
+    public static Document getMessageData(JsonNode message, JsonNode conversationName, JsonNode groupType) {
         // We need to get the sender name, timestamp, and content from each message.
         String senderName = message.get(Constants.JSON_SENDER_FIELD_NAME).asText();
         long timestamp = message.get(Constants.JSON_TIMESTAMP_FIELD).asLong();
@@ -28,7 +29,7 @@ public class ConversationParser {
         // we take an extra step to ensure it is handled without a null pointer exception.
         String contentString = (content == null) ? null : content.asText();
 
-        return new MessageDataDocument(conversationName.asText(), groupType.asText(), senderName,
+        return MessageDataDocument.getBSONDocument(conversationName.asText(), groupType.asText(), senderName,
                 timestamp, contentString);
     }
 
@@ -39,8 +40,8 @@ public class ConversationParser {
      * @return              An ArrayList<MessageDataDocument> that contains MessageDataDocument objects
      *                      that contain the data from each message from the JSON file
      */
-    public static ArrayList<MessageDataDocument> getFileMessagesData(File messageJson) throws IOException {
-        ArrayList<MessageDataDocument> messageDataDocuments = new ArrayList<>();
+    public static ArrayList<Document> getFileMessagesData(File messageJson) throws IOException {
+        ArrayList<Document> messageDataDocuments = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
         JsonNode rootNode = mapper.readTree(messageJson);
 
@@ -73,7 +74,7 @@ public class ConversationParser {
         // JSON, we send it to a function that parses that file and send data to MongoDB.
         for (File file : conversation.listFiles()) {
             if (FilenameUtils.getExtension(file.getName()).equals(Constants.MESSAGES_EXTENSION)) {
-                ArrayList<MessageDataDocument> messageDataDocuments = getFileMessagesData(file);
+                ArrayList<Document> messageDataDocuments = getFileMessagesData(file);
                 MongoDBWriter.writeMessageDataDocuments(messageDataDocuments);
             }
         }

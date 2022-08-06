@@ -4,48 +4,31 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 public class MessageDataDocument {
-    private String conversationName;
-    private Boolean isGroupChat;
-    private String senderName;
-    private Date date;
-    private String content;
-
     /**
-     * Public constructor for the MessageDataDocument class.
+     * Creates a BSON document that contains all of the information for the document
+     * we want to send to MongoDB.
      *
      * @param conversationName  String representing the name of the current Facebook Messenger conversation.
      * @param groupType         Boolean representing if the current conversation is a group chat or not.
      * @param senderName        String representing the person who sent the current message.
      * @param timestamp         String representing the time when the current message was sent.
      * @param content           String that is the literal current message.
-     */
-    public MessageDataDocument(String conversationName, String groupType, String senderName, long timestamp,
-                               String content) {
-        this.conversationName = ensureSingleQuoteUTF8(conversationName);
-        this.isGroupChat = isGroupTypeGroupChat(groupType);
-        this.senderName = senderName;
-        this.date = getTimestampAsDate(timestamp);
-        this.content = ensureSingleQuoteUTF8(content);
-    }
-
-    /**
-     * Creates a BSON document that contains all of the information for the document
-     * we want to send to MongoDB.
      *
      * @return  A BSON document containing all the message data to send to MongoDB.
      */
-    public Document getBSONDocument() {
+    public static Document getBSONDocument(String conversationName, String groupType, String senderName, long timestamp,
+                                    String content) {
         Document document = new Document();
-        document.append(Constants.MONGO_CONVERSATION_FIELD_NAME, this.conversationName);
-        document.append(Constants.MONGO_GROUP_CHAT_FIELD_NAME, this.isGroupChat);
-        document.append(Constants.MONGO_SENDER_FIELD_NAME, this.senderName);
-        document.append(Constants.MONGO_DATE_FIELD_NAME, this.date);
+        document.append(Constants.MONGO_CONVERSATION_FIELD_NAME, ensureSingleQuoteUTF8(conversationName));
+        document.append(Constants.MONGO_GROUP_CHAT_FIELD_NAME, isGroupTypeGroupChat(groupType));
+        document.append(Constants.MONGO_SENDER_FIELD_NAME, senderName);
+        document.append(Constants.MONGO_DATE_FIELD_NAME, getTimestampAsDate(timestamp));
 
         // A message may or may not have content. If it does, we add an appropriate field,
         // but if the message is empty, we do not add a field for it (MongoDB treats a non-existent
         // field as null for our purposes).
-        if (this.content != null) {
-            document.append(Constants.MONGO_CONTENT_FIELD_NAME, this.content);
+        if (content != null) {
+            document.append(Constants.MONGO_CONTENT_FIELD_NAME, ensureSingleQuoteUTF8(content));
         }
 
         return document;
@@ -57,7 +40,7 @@ public class MessageDataDocument {
      * @param timestamp A long representing the timestamp of a message.
      * @return          A Date that represents the date a message was sent.
      */
-    private Date getTimestampAsDate(long timestamp) {
+    private static Date getTimestampAsDate(long timestamp) {
         return new Date(timestamp);
     }
 
@@ -72,7 +55,7 @@ public class MessageDataDocument {
      *                  A result of "true" means the conversation is a group chat,
      *                  while "false" means the conversation is not a group chat.
      */
-    private Boolean isGroupTypeGroupChat(String groupType) {
+    private static Boolean isGroupTypeGroupChat(String groupType) {
         return groupType.equals(Constants.GROUP_CHAT_TYPE_NAME);
     }
 
@@ -91,7 +74,7 @@ public class MessageDataDocument {
      * @param currentString A String that needs to be checked for UTF-8 compliance
      * @return
      */
-    private String ensureSingleQuoteUTF8(String currentString) {
+    private static String ensureSingleQuoteUTF8(String currentString) {
         if (currentString != null && currentString.contains("â\u0080\u0099")) {
             byte[] stringBytes = currentString.getBytes(StandardCharsets.ISO_8859_1);
             return new String(stringBytes, StandardCharsets.UTF_8);
