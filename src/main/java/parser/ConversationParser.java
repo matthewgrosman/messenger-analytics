@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FilenameUtils;
 import org.bson.Document;
 import shared.Constants;
-import shared.MongoDBWriter;
+import shared.MongoDBClient;
 
 public class ConversationParser {
     /**
@@ -79,7 +79,7 @@ public class ConversationParser {
         for (File file : conversation.listFiles()) {
             if (FilenameUtils.getExtension(file.getName()).equals(Constants.MESSAGES_EXTENSION)) {
                 ArrayList<Document> messageDataDocuments = getFileMessagesData(file);
-                MongoDBWriter.writeMessageDataDocuments(messageDataDocuments);
+                MongoDBClient.writeMessageDataDocuments(messageDataDocuments);
             }
         }
     }
@@ -101,12 +101,12 @@ public class ConversationParser {
     public static void main(String[] args) throws IOException {
         File[] conversations = getConversations();
 
-        MongoDBWriter.getMongoDBConnection();
+        MongoDBClient.getMongoDBConnection();
 
         for (File conversation : conversations) {
             parseConversation(conversation);
         }
 
-        MongoDBWriter.closeMongoDBConnection();
+        MongoDBClient.closeMongoDBConnection();
     }
 }
