@@ -1,3 +1,5 @@
+package parser;
+
 import com.fasterxml.jackson.databind.JsonNode;
 
 public class ConversationParserUtil {

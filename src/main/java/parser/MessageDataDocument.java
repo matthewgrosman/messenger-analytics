@@ -1,12 +1,14 @@
+package parser;
+
 import org.bson.Document;
+import shared.Constants;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 public class MessageDataDocument {
     /**
-     * Creates a BSON document that contains all of the information for the document
-     * we want to send to MongoDB.
+     * Creates a BSON document that contains all of the information for the document we want to send to MongoDB.
      *
      * @param conversationName  String representing the name of the current Facebook Messenger conversation.
      * @param groupType         Boolean representing if the current conversation is a group chat or not.
@@ -71,8 +73,8 @@ public class MessageDataDocument {
      * this function and find some kind of parameter I can set when using Jackson to decode
      * the JSON that handles this. But, oh well.
      *
-     * @param currentString A String that needs to be checked for UTF-8 compliance
-     * @return
+     * @param currentString A String that needs to be checked for UTF-8 compliance.
+     * @return              A valid UTF-8 string.
      */
     private static String ensureSingleQuoteUTF8(String currentString) {
         if (currentString != null && currentString.contains("â\u0080\u0099")) {

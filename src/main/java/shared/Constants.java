@@ -1,3 +1,5 @@
+package shared;
+
 public final class Constants {
     // The folder holding all Facebook Messenger conversations.
     public static final String MESSAGES_FOLDER = "/Users/matthew/Documents/Message-Data-2022/messages-json/inbox/";
@@ -27,5 +29,5 @@ public final class Constants {
 
     // The database and collection names for MongoDB
     public static final String MONGO_DATABASE_NAME = "messenger-data";
-    public static final String MONGO_COLLECTION_NAME = "messages-test";
+    public static final String MONGO_COLLECTION_NAME = "messages-test-3";
 }

@@ -1,3 +1,5 @@
+package parser;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,17 +8,19 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FilenameUtils;
 import org.bson.Document;
+import shared.Constants;
+import shared.MongoDBWriter;
 
 public class ConversationParser {
     /**
-     * Gets relevant information from a message and returns it in the form of a MessageDataDocument
+     * Gets relevant information from a message and returns it in the form of a parser.MessageDataDocument
      * object. This includes the conversation name, group type, and message content.
      *
      * @param message           A JsonNode containing the content of a message. This either contains a string
      *                          or is null.
      * @param conversationName  A JsonNode containing the name of the conversation.
      * @param groupType         A JsonNode containing the group type of the conversation.
-     * @return                  A MessageDataDocument that contains all the relevant data from this message.
+     * @return                  A parser.MessageDataDocument that contains all the relevant data from this message.
      */
     public static Document getMessageData(JsonNode message, JsonNode conversationName, JsonNode groupType) {
         // We need to get the sender name, timestamp, and content from each message.
@@ -37,7 +41,7 @@ public class ConversationParser {
      * Takes an individual JSON file that contains messages and parses this file for data.
      *
      * @param messageJson   A JSON file containing messages from a Facebook Messenger conversation.
-     * @return              An ArrayList<MessageDataDocument> that contains MessageDataDocument objects
+     * @return              An ArrayList<parser.MessageDataDocument> that contains parser.MessageDataDocument objects
      *                      that contain the data from each message from the JSON file
      */
     public static ArrayList<Document> getFileMessagesData(File messageJson) throws IOException {
