@@ -4,8 +4,6 @@ import com.mongodb.client.*;
 
 import org.bson.Document;
 
-import java.util.ArrayList;
-
 public class MongoDBClient {
     private static MongoClient mongoClient;
     public static MongoCollection<Document> messagesCollection;

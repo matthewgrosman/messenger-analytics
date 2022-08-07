@@ -103,6 +103,8 @@ public class IndividualConversationMongoDB {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
 
+        // This line gets month number, but it starts at a 0th index (i.e. January is the
+        // 0th month), so we add 1 to get the normal month number.
         int month = calendar.get(Calendar.MONTH) + 1;
         int year = calendar.get(Calendar.YEAR);
 
