@@ -29,5 +29,5 @@ public final class Constants {
 
     // The database and collection names for MongoDB
     public static final String MONGO_DATABASE_NAME = "messenger-data";
-    public static final String MONGO_COLLECTION_NAME = "messages-test-4";
+    public static final String MONGO_COLLECTION_NAME = "messages-test-3";
 }
