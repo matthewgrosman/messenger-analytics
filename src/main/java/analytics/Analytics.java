@@ -44,12 +44,22 @@ public class Analytics {
 
             System.out.println();
 
-            // Get the most active days and hours (as a number and percentage)
+            // Get the most active days (as a number and percentage)
             HashMap<String, Integer> messagesPerWeekday = IndividualConversationMongoDB.getNumberOfMessagesPerWeekday(conversationName);
             for (String key : messagesPerWeekday.keySet()) {
                 System.out.printf("Weekday: " + key
                         + ", Number of Messages: " + messagesPerWeekday.get(key));
                 System.out.printf(" (%.2f%%)%n", getProportionAsPercentage(numberOfMessages, messagesPerWeekday.get(key)));
+            }
+
+            System.out.println();
+
+            // Get the most active hours (as a number and percentage)
+            HashMap<String, Integer> messagesPerHour = IndividualConversationMongoDB.getNumberOfMessagesPerHour(conversationName);
+            for (String key : messagesPerHour.keySet()) {
+                System.out.printf("Hour: " + key
+                        + ", Number of Messages: " + messagesPerHour.get(key));
+                System.out.printf(" (%.2f%%)%n", getProportionAsPercentage(numberOfMessages, messagesPerHour.get(key)));
             }
         }
     }

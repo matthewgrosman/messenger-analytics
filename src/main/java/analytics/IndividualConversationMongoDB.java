@@ -43,7 +43,7 @@ public class IndividualConversationMongoDB {
      *
      * @param conversationName  A String representing the name of the conversation.
      * @return                  A HashMap containing the names of all participants and the number
-     *                          of messages that they have sent in the conversation.
+     *                          of messages that they have been sent in the conversation.
      */
     public static HashMap<String, Integer> getNumberOfMessagesPerPerson(String conversationName) {
         HashMap<String, Integer> messagesPerPerson = new HashMap<>();
@@ -62,8 +62,8 @@ public class IndividualConversationMongoDB {
      * have been sent and how many messages have been sent each month.
      *
      * @param conversationName  A String representing the name of the conversation.
-     * @return                  A HashMap containing the months messages have been sent and
-     *                          the amount of messages that sent in each month.
+     * @return                  A HashMap containing the months that messages have been sent and
+     *                          the amount of messages that have been sent in each month.
      */
     public static HashMap<String, Integer> getNumberOfMessagesPerMonth(String conversationName) {
         HashMap<String, Integer> messagesPerMonth = new HashMap<>();
@@ -82,8 +82,8 @@ public class IndividualConversationMongoDB {
      * have been sent and how many messages have been sent each weekday.
      *
      * @param conversationName  A String representing the name of the conversation.
-     * @return                  A HashMap containing the weekdays messages have been sent and
-     *                          the amount of messages that sent on each weekday..
+     * @return                  A HashMap containing the weekdays that messages have been sent and
+     *                          the amount of messages that have been sent on each weekday.
      */
     public static HashMap<String, Integer> getNumberOfMessagesPerWeekday(String conversationName) {
         HashMap<String, Integer> messagesPerWeekday = new HashMap<>();
@@ -95,6 +95,26 @@ public class IndividualConversationMongoDB {
         }
 
         return messagesPerWeekday;
+    }
+
+    /**
+     * Takes in a conversation name and returns a HashMap that contains all of the hours that messages
+     * have been sent and how many messages have been sent each hour.
+     *
+     * @param conversationName  A String representing the name of the conversation.
+     * @return                  A HashMap containing the hours that messages have been sent and
+     *                          the amount of messages that have been sent in each hour.
+     */
+    public static HashMap<String, Integer> getNumberOfMessagesPerHour(String conversationName) {
+        HashMap<String, Integer> messagesPerHour = new HashMap<>();
+        FindIterable<Document> messages = getMessagesFromConversation(conversationName);
+
+        for (Document message : messages) {
+            String hour = getFormattedDate(message, Constants.HOUR_FORMAT);
+            messagesPerHour.put(hour, messagesPerHour.getOrDefault(hour, 0) + 1);
+        }
+
+        return messagesPerHour;
     }
 
     /**
@@ -135,8 +155,11 @@ public class IndividualConversationMongoDB {
             int weekdayIndex = calendar.get(Calendar.DAY_OF_WEEK);
             return Constants.WEEKDAY_INDEX_TO_DAY.get(weekdayIndex);
         }
-        else {
-            return "";
+        else if (formatType.equals(Constants.HOUR_FORMAT)){
+            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+            return hour + Constants.HOUR_SUFFIX;
         }
+
+        return "";
     }
 }

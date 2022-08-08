@@ -37,6 +37,8 @@ public final class Constants {
     // The types of date formats needed for analytics.
     public static final String MONTH_FORMAT = "MONTH";
     public static final String WEEKDAY_FORMAT = "WEEKDAY";
+    public static final String HOUR_FORMAT = "HOUR";
+    public static final String HOUR_SUFFIX = ":00";
 
     public static final Map<Integer, String> WEEKDAY_INDEX_TO_DAY = Map.of(
             1, "Monday",
