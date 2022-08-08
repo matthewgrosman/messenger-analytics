@@ -77,6 +77,14 @@ public class IndividualConversationMongoDB {
         return messagesPerMonth;
     }
 
+    /**
+     * Takes in a conversation name and returns a HashMap that contains all of the weekdays messages
+     * have been sent and how many messages have been sent each weekday.
+     *
+     * @param conversationName  A String representing the name of the conversation.
+     * @return                  A HashMap containing the weekdays messages have been sent and
+     *                          the amount of messages that sent on each weekday..
+     */
     public static HashMap<String, Integer> getNumberOfMessagesPerWeekday(String conversationName) {
         HashMap<String, Integer> messagesPerWeekday = new HashMap<>();
         FindIterable<Document> messages = getMessagesFromConversation(conversationName);
@@ -104,11 +112,12 @@ public class IndividualConversationMongoDB {
     }
 
     /**
-     * Takes in a document that has a date field and returns a formatted date that contains
-     * only a month and year in the format "MM-YYYY"
+     * Takes in a document that has a date field and returns a formatted date. The format is
+     * indicated by the formatType parameter.
      *
-     * @param document  A message Document that contains a date field.
-     * @return          A String with a formatted date in the form "MM-YYYY".
+     * @param document      A message Document that contains a date field.
+     * @param formatType    A String that denotes what format we want the date in.
+     * @return              A String with the correctly formatted date.
      */
     private static String getFormattedDate(Document document, String formatType) {
         Date date = (Date) document.get(Constants.MONGO_DATE_FIELD_NAME);
