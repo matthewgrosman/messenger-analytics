@@ -1,5 +1,8 @@
 package shared;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class Constants {
     // The folder holding all Facebook Messenger conversations.
     public static final String MESSAGES_FOLDER = "/Users/matthew/Documents/Message-Data-2022/messages-json/inbox/";
@@ -27,7 +30,20 @@ public final class Constants {
     // The conversation types for group chats and regular chats.
     public static final String GROUP_CHAT_TYPE_NAME = "RegularGroup";
 
-    // The database and collection names for MongoDB
+    // The database and collection names for MongoDB.
     public static final String MONGO_DATABASE_NAME = "messenger-data";
     public static final String MONGO_COLLECTION_NAME = "messages-test-3";
+
+    // The types of date formats needed for analytics.
+    public static final String MONTH_FORMAT = "MONTH";
+    public static final String WEEKDAY_FORMAT = "WEEKDAY";
+
+    public static final Map<Integer, String> WEEKDAY_INDEX_TO_DAY = Map.of(
+            1, "Monday",
+            2, "Tuesday",
+            3, "Wednesday",
+            4, "Thursday",
+            5, "Friday",
+            6, "Saturday",
+            7, "Sunday");
 }

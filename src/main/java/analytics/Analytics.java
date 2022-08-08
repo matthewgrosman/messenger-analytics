@@ -27,7 +27,9 @@ public class Analytics {
             // Get how many messages each person has sent (as a number and percentage)
             HashMap<String, Integer> messagesPerPerson = IndividualConversationMongoDB.getNumberOfMessagesPerPerson(conversationName);
             for (String key : messagesPerPerson.keySet()) {
-                System.out.println("Name: " + key + ", Number of Messages: " + messagesPerPerson.get(key));
+                System.out.printf("Name: " + key
+                        + ", Number of Messages: " + messagesPerPerson.get(key));
+                System.out.printf(" (%.2f%%)%n", getProportionAsPercentage(numberOfMessages, messagesPerPerson.get(key)));
             }
 
             System.out.println();
@@ -35,11 +37,27 @@ public class Analytics {
             // Get how many messages have been sent each month (as a number and percentage)
             HashMap<String, Integer> messagePerMonth = IndividualConversationMongoDB.getNumberOfMessagesPerMonth(conversationName);
             for (String key : messagePerMonth.keySet()) {
-                System.out.println("Month: " + key + ", Number of Messages: " + messagePerMonth.get(key));
+                System.out.printf("Date: " + key
+                        + ", Number of Messages: " + messagePerMonth.get(key));
+                System.out.printf(" (%.2f%%)%n", getProportionAsPercentage(numberOfMessages, messagePerMonth.get(key)));
             }
 
+            System.out.println();
+
             // Get the most active days and hours (as a number and percentage)
+            HashMap<String, Integer> messagesPerWeekday = IndividualConversationMongoDB.getNumberOfMessagesPerWeekday(conversationName);
+            for (String key : messagesPerWeekday.keySet()) {
+                System.out.printf("Weekday: " + key
+                        + ", Number of Messages: " + messagesPerWeekday.get(key));
+                System.out.printf(" (%.2f%%)%n", getProportionAsPercentage(numberOfMessages, messagesPerWeekday.get(key)));
+            }
         }
+    }
+
+    private static double getProportionAsPercentage(long totalNumberOfMessages, int currentNumberOfMessages) {
+        // We need to convert one of these numbers to a decimal type in order to not just get 0 when dividing the
+        // two numbers
+        return ((currentNumberOfMessages*1.0) / totalNumberOfMessages) * 100;
     }
 
     // Generate analytics about all conversations over a given time range.

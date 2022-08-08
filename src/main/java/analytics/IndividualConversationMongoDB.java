@@ -70,11 +70,23 @@ public class IndividualConversationMongoDB {
         FindIterable<Document> messages = getMessagesFromConversation(conversationName);
 
         for (Document message : messages) {
-            String date = getFormattedDate(message);
+            String date = getFormattedDate(message, Constants.MONTH_FORMAT);
             messagesPerMonth.put(date, messagesPerMonth.getOrDefault(date, 0) + 1);
         }
 
         return messagesPerMonth;
+    }
+
+    public static HashMap<String, Integer> getNumberOfMessagesPerWeekday(String conversationName) {
+        HashMap<String, Integer> messagesPerWeekday = new HashMap<>();
+        FindIterable<Document> messages = getMessagesFromConversation(conversationName);
+
+        for (Document message : messages) {
+            String weekday = getFormattedDate(message, Constants.WEEKDAY_FORMAT);
+            messagesPerWeekday.put(weekday, messagesPerWeekday.getOrDefault(weekday, 0) + 1);
+        }
+
+        return messagesPerWeekday;
     }
 
     /**
@@ -98,16 +110,24 @@ public class IndividualConversationMongoDB {
      * @param document  A message Document that contains a date field.
      * @return          A String with a formatted date in the form "MM-YYYY".
      */
-    private static String getFormattedDate(Document document) {
+    private static String getFormattedDate(Document document, String formatType) {
         Date date = (Date) document.get(Constants.MONGO_DATE_FIELD_NAME);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
 
-        // This line gets month number, but it starts at a 0th index (i.e. January is the
-        // 0th month), so we add 1 to get the normal month number.
-        int month = calendar.get(Calendar.MONTH) + 1;
-        int year = calendar.get(Calendar.YEAR);
-
-        return month + "-" + year;
+        if (formatType.equals(Constants.MONTH_FORMAT)) {
+            // This line gets month number, but it starts at a 0th index (i.e. January is the
+            // 0th month), so we add 1 to get the normal month number.
+            int month = calendar.get(Calendar.MONTH) + 1;
+            int year = calendar.get(Calendar.YEAR);
+            return month + "-" + year;
+        }
+        else if (formatType.equals(Constants.WEEKDAY_FORMAT)) {
+            int weekdayIndex = calendar.get(Calendar.DAY_OF_WEEK);
+            return Constants.WEEKDAY_INDEX_TO_DAY.get(weekdayIndex);
+        }
+        else {
+            return "";
+        }
     }
 }
