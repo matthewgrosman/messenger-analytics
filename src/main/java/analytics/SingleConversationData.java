@@ -2,7 +2,7 @@ package analytics;
 
 import java.util.HashMap;
 
-public class IndividualConversationData {
+public class SingleConversationData {
     public long numberOfMessages;
     public HashMap<String, Integer> messagesPerPerson;
     public HashMap<String, Integer> messagesPerMonth;
@@ -10,9 +10,9 @@ public class IndividualConversationData {
     public HashMap<String, Integer> messagesPerHour;
 
     /**
-     * Constructor for the IndividualConversationData class.
+     * Constructor for the SingleConversationData class.
      */
-    public IndividualConversationData() {
+    public SingleConversationData() {
         messagesPerPerson = new HashMap<>();
         messagesPerMonth = new HashMap<>();
         messagesPerWeekday = new HashMap<>();

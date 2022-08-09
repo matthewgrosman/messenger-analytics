@@ -15,18 +15,27 @@ public class Analytics {
      */
     public static void getIndividualConversationData(String conversationName) {
         // Check if the conversation name entered is a valid conversation before grabbing data
-        if (IndividualConversationMongoDB.isConversationValid(conversationName)) {
-            IndividualConversationData conversationData = IndividualConversationMongoDB.getConversationData(conversationName);
+        if (SingleConversationMongoDB.isConversationValid(conversationName)) {
+            SingleConversationData conversationData = SingleConversationMongoDB.getConversationData(conversationName);
             conversationData.printConversationData();
-
         }
     }
 
     // Generate analytics about all conversations over a given time range.
     // We want to see:
+    //      - Total number of messages across all conversations
     //      - What conversations (group chat and individual) have exchanged the most messages (number and percentages).
+    //      - Most active months (number and percentage).
+    //      - Most active days (number and percentage)
     //      - Most active hours (number and percentages).
     //      - Who has sent the most messages across all conversations (number and percentages).
+
+    // Add feature in the future to give input of person and find out how many messages they've sent you total
+
+    public static void getAggregatedConversationData() {
+        AggregatedConversationData conversationData = AggregatedConversationMongoDB.getConversationData();
+        conversationData.printConversationData();
+    }
 
     public static void main(String[] args) {
         MongoDBClient.getMongoDBConnection();

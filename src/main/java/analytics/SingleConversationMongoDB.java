@@ -9,7 +9,7 @@ import shared.MongoDBClient;
 import java.util.Calendar;
 import java.util.Date;
 
-public class IndividualConversationMongoDB {
+public class SingleConversationMongoDB {
     /**
      * Takes in a user entered conversation name and checks to see if that conversation exists in
      * the database.
@@ -27,21 +27,21 @@ public class IndividualConversationMongoDB {
     /**
      * Gets all relevant conversation data for the current conversation. This includes getting the
      * message sender, the month that message was sent, the day of week that the message was sent, and
-     * the hour that the message was sent. This is all returned neatly in an IndividualConversationData
+     * the hour that the message was sent. This is all returned neatly in an SingleConversationData
      * object that has public class variables for all relevant data collected in this function.
      *
      * @param conversationName  A string denoting the current conversation name.
-     * @return                  An IndividualConversationData object that contains all relevant
+     * @return                  An SingleConversationData object that contains all relevant
      *                          analytics data collected in this function.
      */
-    public static IndividualConversationData getConversationData(String conversationName) {
-        IndividualConversationData conversationData = new IndividualConversationData();
+    public static SingleConversationData getConversationData(String conversationName) {
+        SingleConversationData conversationData = new SingleConversationData();
 
-        // Create a query that filters messages to only be from the current conversation
+        // Create a query that filters messages to only be from the current conversation.
         BasicDBObject query = new BasicDBObject();
         query.put(Constants.MONGO_CONVERSATION_FIELD_NAME, conversationName);
 
-        // Grab the total number of documents
+        // Grab the total number of documents.
         conversationData.numberOfMessages = MongoDBClient.messagesCollection.countDocuments(query);
 
         // Iterate through the messages and grab data we need from each message. This includes getting the
@@ -59,57 +59,57 @@ public class IndividualConversationMongoDB {
     }
 
     /**
-     * Updates the messagesPerPerson HashMap contained within the IndividualConversationData object with
+     * Updates the messagesPerPerson HashMap contained within the SingleConversationData object with
      * the data from the current message. Adds message sender name as a key and updates the value associated
      * with the key by 1.
      *
      * @param message           A Document containing the current message and all of it's relevant data.
-     * @param conversationData  An IndividualConversationData object that holds all of the aggregated data
+     * @param conversationData  An SingleConversationData object that holds all of the aggregated data
      *                          for analytics.
      */
-    public static void updateMessagesPerPerson(Document message, IndividualConversationData conversationData) {
+    public static void updateMessagesPerPerson(Document message, SingleConversationData conversationData) {
         String sender = message.get(Constants.MONGO_SENDER_FIELD_NAME).toString();
         conversationData.messagesPerPerson.put(sender, conversationData.messagesPerPerson.getOrDefault(sender, 0) + 1);
     }
 
     /**
-     * Updates the messagesPerMonth HashMap contained within the IndividualConversationData object with
+     * Updates the messagesPerMonth HashMap contained within the SingleConversationData object with
      * the data from the current message. Adds the month message was sent as a key and updates the value
      * associated with the key by 1.
      *
      * @param message           A Document containing the current message and all of it's relevant data.
-     * @param conversationData  An IndividualConversationData object that holds all of the aggregated data
+     * @param conversationData  An SingleConversationData object that holds all of the aggregated data
      *                          for analytics.
      */
-    public static void updateMessagesPerMonth(Document message, IndividualConversationData conversationData) {
+    public static void updateMessagesPerMonth(Document message, SingleConversationData conversationData) {
         String date = getFormattedDate(message, Constants.MONTH_FORMAT);
         conversationData.messagesPerMonth.put(date, conversationData.messagesPerMonth.getOrDefault(date, 0) + 1);
     }
 
     /**
-     * Updates the messagesPerWeekday HashMap contained within the IndividualConversationData object with
+     * Updates the messagesPerWeekday HashMap contained within the SingleConversationData object with
      * the data from the current message. Adds the day message was sent as a key and updates the value associated
      * with the key by 1.
      *
      * @param message           A Document containing the current message and all of it's relevant data.
-     * @param conversationData  An IndividualConversationData object that holds all of the aggregated data
+     * @param conversationData  An SingleConversationData object that holds all of the aggregated data
      *                          for analytics.
      */
-    public static void updateMessagesPerWeekday(Document message, IndividualConversationData conversationData) {
+    public static void updateMessagesPerWeekday(Document message, SingleConversationData conversationData) {
         String weekday = getFormattedDate(message, Constants.WEEKDAY_FORMAT);
         conversationData.messagesPerWeekday.put(weekday, conversationData.messagesPerWeekday.getOrDefault(weekday, 0) + 1);
     }
 
     /**
-     * Updates the messagesPerHour HashMap contained within the IndividualConversationData object with the
+     * Updates the messagesPerHour HashMap contained within the SingleConversationData object with the
      * data from the current message. Adds the hour message was sent as a key and updates the value associated
      * with the key by 1.
      *
      * @param message           A Document containing the current message and all of it's relevant data.
-     * @param conversationData  An IndividualConversationData object that holds all of the aggregated data
+     * @param conversationData  An SingleConversationData object that holds all of the aggregated data
      *                          for analytics.
      */
-    public static void updateMessagesPerHour(Document message, IndividualConversationData conversationData) {
+    public static void updateMessagesPerHour(Document message, SingleConversationData conversationData) {
         String hour = getFormattedDate(message, Constants.HOUR_FORMAT);
         conversationData.messagesPerHour.put(hour, conversationData.messagesPerHour.getOrDefault(hour, 0) + 1);
     }
