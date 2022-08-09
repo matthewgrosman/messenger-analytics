@@ -8,7 +8,6 @@ import shared.MongoDBClient;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 
 public class IndividualConversationMongoDB {
     /**
@@ -26,109 +25,93 @@ public class IndividualConversationMongoDB {
     }
 
     /**
-     * Takes in a conversation name and returns the amount of messages sent in that conversation.
+     * Gets all relevant conversation data for the current conversation. This includes getting the
+     * message sender, the month that message was sent, the day of week that the message was sent, and
+     * the hour that the message was sent. This is all returned neatly in an IndividualConversationData
+     * object that has public class variables for all relevant data collected in this function.
      *
-     * @param conversationName  A String representing the name of the conversation.
-     * @return                  A long representing the number of messages in the conversation.
+     * @param conversationName  A string denoting the current conversation name.
+     * @return                  An IndividualConversationData object that contains all relevant
+     *                          analytics data collected in this function.
      */
-    public static long getNumberOfMessages(String conversationName) {
+    public static IndividualConversationData getConversationData(String conversationName) {
+        IndividualConversationData conversationData = new IndividualConversationData();
+
+        // Create a query that filters messages to only be from the current conversation
         BasicDBObject query = new BasicDBObject();
         query.put(Constants.MONGO_CONVERSATION_FIELD_NAME, conversationName);
-        return MongoDBClient.messagesCollection.countDocuments(query);
-    }
 
-    /**
-     * Takes in a conversation name and returns a HashMap that contains all of the conversation
-     * participants and how many messages they have sent.
-     *
-     * @param conversationName  A String representing the name of the conversation.
-     * @return                  A HashMap containing the names of all participants and the number
-     *                          of messages that they have been sent in the conversation.
-     */
-    public static HashMap<String, Integer> getNumberOfMessagesPerPerson(String conversationName) {
-        HashMap<String, Integer> messagesPerPerson = new HashMap<>();
-        FindIterable<Document> messages = getMessagesFromConversation(conversationName);
+        // Grab the total number of documents
+        conversationData.numberOfMessages = MongoDBClient.messagesCollection.countDocuments(query);
 
-        for (Document message : messages) {
-            String sender = message.get(Constants.MONGO_SENDER_FIELD_NAME).toString();
-            messagesPerPerson.put(sender, messagesPerPerson.getOrDefault(sender, 0) + 1);
+        // Iterate through the messages and grab data we need from each message. This includes getting the
+        // message sender, the month that message was sent, the day of week that the message was sent, and
+        // the hour that the message was sent.
+        FindIterable<Document> conversationMessages = MongoDBClient.messagesCollection.find(query);
+        for (Document message : conversationMessages) {
+            updateMessagesPerPerson(message, conversationData);
+            updateMessagesPerMonth(message, conversationData);
+            updateMessagesPerWeekday(message, conversationData);
+            updateMessagesPerHour(message, conversationData);
         }
 
-        return messagesPerPerson;
+        return conversationData;
     }
 
     /**
-     * Takes in a conversation name and returns a HashMap that contains all of the months messages
-     * have been sent and how many messages have been sent each month.
+     * Updates the messagesPerPerson HashMap contained within the IndividualConversationData object with
+     * the data from the current message. Adds message sender name as a key and updates the value associated
+     * with the key by 1.
      *
-     * @param conversationName  A String representing the name of the conversation.
-     * @return                  A HashMap containing the months that messages have been sent and
-     *                          the amount of messages that have been sent in each month.
+     * @param message           A Document containing the current message and all of it's relevant data.
+     * @param conversationData  An IndividualConversationData object that holds all of the aggregated data
+     *                          for analytics.
      */
-    public static HashMap<String, Integer> getNumberOfMessagesPerMonth(String conversationName) {
-        HashMap<String, Integer> messagesPerMonth = new HashMap<>();
-        FindIterable<Document> messages = getMessagesFromConversation(conversationName);
-
-        for (Document message : messages) {
-            String date = getFormattedDate(message, Constants.MONTH_FORMAT);
-            messagesPerMonth.put(date, messagesPerMonth.getOrDefault(date, 0) + 1);
-        }
-
-        return messagesPerMonth;
+    public static void updateMessagesPerPerson(Document message, IndividualConversationData conversationData) {
+        String sender = message.get(Constants.MONGO_SENDER_FIELD_NAME).toString();
+        conversationData.messagesPerPerson.put(sender, conversationData.messagesPerPerson.getOrDefault(sender, 0) + 1);
     }
 
     /**
-     * Takes in a conversation name and returns a HashMap that contains all of the weekdays messages
-     * have been sent and how many messages have been sent each weekday.
+     * Updates the messagesPerMonth HashMap contained within the IndividualConversationData object with
+     * the data from the current message. Adds the month message was sent as a key and updates the value
+     * associated with the key by 1.
      *
-     * @param conversationName  A String representing the name of the conversation.
-     * @return                  A HashMap containing the weekdays that messages have been sent and
-     *                          the amount of messages that have been sent on each weekday.
+     * @param message           A Document containing the current message and all of it's relevant data.
+     * @param conversationData  An IndividualConversationData object that holds all of the aggregated data
+     *                          for analytics.
      */
-    public static HashMap<String, Integer> getNumberOfMessagesPerWeekday(String conversationName) {
-        HashMap<String, Integer> messagesPerWeekday = new HashMap<>();
-        FindIterable<Document> messages = getMessagesFromConversation(conversationName);
-
-        for (Document message : messages) {
-            String weekday = getFormattedDate(message, Constants.WEEKDAY_FORMAT);
-            messagesPerWeekday.put(weekday, messagesPerWeekday.getOrDefault(weekday, 0) + 1);
-        }
-
-        return messagesPerWeekday;
+    public static void updateMessagesPerMonth(Document message, IndividualConversationData conversationData) {
+        String date = getFormattedDate(message, Constants.MONTH_FORMAT);
+        conversationData.messagesPerMonth.put(date, conversationData.messagesPerMonth.getOrDefault(date, 0) + 1);
     }
 
     /**
-     * Takes in a conversation name and returns a HashMap that contains all of the hours that messages
-     * have been sent and how many messages have been sent each hour.
+     * Updates the messagesPerWeekday HashMap contained within the IndividualConversationData object with
+     * the data from the current message. Adds the day message was sent as a key and updates the value associated
+     * with the key by 1.
      *
-     * @param conversationName  A String representing the name of the conversation.
-     * @return                  A HashMap containing the hours that messages have been sent and
-     *                          the amount of messages that have been sent in each hour.
+     * @param message           A Document containing the current message and all of it's relevant data.
+     * @param conversationData  An IndividualConversationData object that holds all of the aggregated data
+     *                          for analytics.
      */
-    public static HashMap<String, Integer> getNumberOfMessagesPerHour(String conversationName) {
-        HashMap<String, Integer> messagesPerHour = new HashMap<>();
-        FindIterable<Document> messages = getMessagesFromConversation(conversationName);
-
-        for (Document message : messages) {
-            String hour = getFormattedDate(message, Constants.HOUR_FORMAT);
-            messagesPerHour.put(hour, messagesPerHour.getOrDefault(hour, 0) + 1);
-        }
-
-        return messagesPerHour;
+    public static void updateMessagesPerWeekday(Document message, IndividualConversationData conversationData) {
+        String weekday = getFormattedDate(message, Constants.WEEKDAY_FORMAT);
+        conversationData.messagesPerWeekday.put(weekday, conversationData.messagesPerWeekday.getOrDefault(weekday, 0) + 1);
     }
 
     /**
-     * Filter down database documents to a specific conversation, and return an iterable object
-     * that can be iterated on to access those documents.
+     * Updates the messagesPerHour HashMap contained within the IndividualConversationData object with the
+     * data from the current message. Adds the hour message was sent as a key and updates the value associated
+     * with the key by 1.
      *
-     * @param conversationName  A String representing the name of the conversation.
-     * @return                  A FindIterable<Document> object that is an iterable of all
-     *                          documents for the given conversation.
+     * @param message           A Document containing the current message and all of it's relevant data.
+     * @param conversationData  An IndividualConversationData object that holds all of the aggregated data
+     *                          for analytics.
      */
-    private static FindIterable<Document> getMessagesFromConversation(String conversationName) {
-        BasicDBObject query = new BasicDBObject();
-        query.put(Constants.MONGO_CONVERSATION_FIELD_NAME, conversationName);
-        return MongoDBClient.messagesCollection.find(query);
+    public static void updateMessagesPerHour(Document message, IndividualConversationData conversationData) {
+        String hour = getFormattedDate(message, Constants.HOUR_FORMAT);
+        conversationData.messagesPerHour.put(hour, conversationData.messagesPerHour.getOrDefault(hour, 0) + 1);
     }
 
     /**
