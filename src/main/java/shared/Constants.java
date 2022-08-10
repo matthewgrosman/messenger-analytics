@@ -1,6 +1,5 @@
 package shared;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public final class Constants {
