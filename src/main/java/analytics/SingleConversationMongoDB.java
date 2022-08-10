@@ -22,13 +22,13 @@ public class SingleConversationMongoDB {
     }
 
     /**
-     * Gets all relevant conversation data for the current conversation. This includes getting the
-     * message sender, the month that message was sent, the day of week that the message was sent, and
-     * the hour that the message was sent. This is all returned neatly in an SingleConversationData
+     * Gets all relevant conversation data for the current conversation. This includes getting data on
+     * message senders, the months that messages were sent, the days of week that messages were sent, and
+     * the hours that messages were sent. This is all returned neatly in an SingleConversationData
      * object that has public class variables for all relevant data collected in this function.
      *
-     * @param conversationName  A string denoting the current conversation name.
-     * @return                  An SingleConversationData object that contains all relevant
+     * @param conversationName  A String denoting the current conversation name.
+     * @return                  A SingleConversationData object that contains all relevant
      *                          analytics data collected in this function.
      */
     public static SingleConversationData getConversationData(String conversationName) {

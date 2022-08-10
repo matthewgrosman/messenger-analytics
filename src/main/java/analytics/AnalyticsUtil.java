@@ -14,7 +14,7 @@ public class AnalyticsUtil {
      * with the key by 1.
      *
      * @param message           A Document containing the current message and all of it's relevant data.
-     * @param conversationData  An SingleConversationData object that holds all of the aggregated data
+     * @param conversationData  A ConversationData object that holds all of the relevant data
      *                          for analytics.
      */
     public static void updateMessagesPerPerson(Document message, ConversationData conversationData) {
@@ -28,7 +28,7 @@ public class AnalyticsUtil {
      * associated with the key by 1.
      *
      * @param message           A Document containing the current message and all of it's relevant data.
-     * @param conversationData  An SingleConversationData object that holds all of the aggregated data
+     * @param conversationData  A ConversationData object that holds all of the relevant data
      *                          for analytics.
      */
     public static void updateMessagesPerMonth(Document message, ConversationData conversationData) {
@@ -42,7 +42,7 @@ public class AnalyticsUtil {
      * with the key by 1.
      *
      * @param message           A Document containing the current message and all of it's relevant data.
-     * @param conversationData  An SingleConversationData object that holds all of the aggregated data
+     * @param conversationData  A ConversationData object that holds all of the relevant data
      *                          for analytics.
      */
     public static void updateMessagesPerWeekday(Document message, ConversationData conversationData) {
@@ -56,12 +56,27 @@ public class AnalyticsUtil {
      * with the key by 1.
      *
      * @param message           A Document containing the current message and all of it's relevant data.
-     * @param conversationData  An SingleConversationData object that holds all of the aggregated data
+     * @param conversationData  A ConversationData object that holds all of the relevant data
      *                          for analytics.
      */
     public static void updateMessagesPerHour(Document message, ConversationData conversationData) {
         String hour = getFormattedDate(message, Constants.HOUR_FORMAT);
         conversationData.messagesPerHour.put(hour, conversationData.messagesPerHour.getOrDefault(hour, 0) + 1);
+    }
+
+    /**
+     * Gets current number of messages as a percent of the total number of messages.
+     *
+     * @param totalNumberOfMessages     A long representing the total number of messages sent in the conversation.
+     * @param currentNumberOfMessages   A long representing the current number of messages we want to find a
+     *                                  percentage for.
+     * @return                          A double representing the proportion of current messages to total
+     *                                  messages as a percentage.
+     */
+    public static double getProportionAsPercentage(long totalNumberOfMessages, int currentNumberOfMessages) {
+        // We need to convert one of these numbers to a decimal type in order to not
+        // just get 0 when dividing the two numbers.
+        return ((currentNumberOfMessages*1.0) / totalNumberOfMessages) * 100;
     }
 
     /**
@@ -94,20 +109,5 @@ public class AnalyticsUtil {
         }
 
         return "";
-    }
-
-    /**
-     * Gets current number of messages as a percent of the total number of messages.
-     *
-     * @param totalNumberOfMessages     A long representing the total number of messages sent in the conversation.
-     * @param currentNumberOfMessages   A long representing the current number of messages we want to find a
-     *                                  percentage for.
-     * @return                          A double representing the proportion of current messages to total
-     *                                  messages as a percentage.
-     */
-    public static double getProportionAsPercentage(long totalNumberOfMessages, int currentNumberOfMessages) {
-        // We need to convert one of these numbers to a decimal type in order to not
-        // just get 0 when dividing the two numbers.
-        return ((currentNumberOfMessages*1.0) / totalNumberOfMessages) * 100;
     }
 }

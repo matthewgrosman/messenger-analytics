@@ -5,6 +5,16 @@ import org.bson.Document;
 import shared.MongoDBClient;
 
 public class AggregatedConversationMongoDB {
+    /**
+     * Gets all relevant conversation data for the current conversation. This includes getting data on
+     * conversation message counts, message senders, the months that messages were sent, the days of
+     * the week that messages were sent, and the hours that messages were sent. This is all returned
+     * neatly in an AggregatedConversationData object that has public class variables for all relevant
+     * data collected in this function.
+     *
+     * @return  An AggregatedConversationData object that contains all relevant
+     *          analytics data collected in this function.
+     */
     public static AggregatedConversationData getConversationData() {
         AggregatedConversationData conversationData = new AggregatedConversationData();
 
