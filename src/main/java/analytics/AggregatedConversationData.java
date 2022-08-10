@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class AggregatedConversationData implements ConversationData {
     public long numberOfMessages;
-    public HashMap<String, Integer> messagesPerSender;
+    public HashMap<String, Integer> messagesPerConversation;
 
     /**
      * Constructor for the AggregatedConversationData class. We need this to ensure
@@ -12,7 +12,7 @@ public class AggregatedConversationData implements ConversationData {
      * is not defined in the ConversationData interface.
      */
     public AggregatedConversationData() {
-        messagesPerSender = new HashMap<>();
+        messagesPerConversation = new HashMap<>();
     }
 
     /**
@@ -31,6 +31,14 @@ public class AggregatedConversationData implements ConversationData {
             System.out.printf("Name: " + key
                     + ", Number of Messages: " + messagesPerPerson.get(key));
             System.out.printf(" (%.2f%%)%n", AnalyticsUtil.getProportionAsPercentage(numberOfMessages, messagesPerPerson.get(key)));
+        }
+
+        System.out.println();
+
+        for (String key : messagesPerConversation.keySet()) {
+            System.out.printf("Conversation Name: " + key
+                    + ", Number of Messages: " + messagesPerConversation.get(key));
+            System.out.printf(" (%.2f%%)%n", AnalyticsUtil.getProportionAsPercentage(numberOfMessages, messagesPerConversation.get(key)));
         }
 
         System.out.println();
