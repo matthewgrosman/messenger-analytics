@@ -40,7 +40,7 @@ public class Analytics {
     public static void main(String[] args) {
         MongoDBClient.getMongoDBConnection();
 
-        getIndividualConversationData("BOMB-FIRE");
+        getAggregatedConversationData();
 
         MongoDBClient.closeMongoDBConnection();
     }

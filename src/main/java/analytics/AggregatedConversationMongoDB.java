@@ -23,6 +23,12 @@ public class AggregatedConversationMongoDB {
         // message sender, the month that message was sent, the day of week that the message was sent, and
         // the hour that the message was sent.
         FindIterable<Document> conversationMessages = MongoDBClient.messagesCollection.find();
+        for (Document message : conversationMessages) {
+            AnalyticsUtil.updateMessagesPerPerson(message, conversationData);
+            AnalyticsUtil.updateMessagesPerMonth(message, conversationData);
+            AnalyticsUtil.updateMessagesPerWeekday(message, conversationData);
+            AnalyticsUtil.updateMessagesPerHour(message, conversationData);
+        }
 
         return conversationData;
     }

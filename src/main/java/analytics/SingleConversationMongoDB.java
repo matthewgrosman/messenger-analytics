@@ -46,10 +46,10 @@ public class SingleConversationMongoDB {
         // the hour that the message was sent.
         FindIterable<Document> conversationMessages = MongoDBClient.messagesCollection.find(query);
         for (Document message : conversationMessages) {
-            MongoDBUtil.updateMessagesPerPerson(message, conversationData);
-            MongoDBUtil.updateMessagesPerMonth(message, conversationData);
-            MongoDBUtil.updateMessagesPerWeekday(message, conversationData);
-            MongoDBUtil.updateMessagesPerHour(message, conversationData);
+            AnalyticsUtil.updateMessagesPerPerson(message, conversationData);
+            AnalyticsUtil.updateMessagesPerMonth(message, conversationData);
+            AnalyticsUtil.updateMessagesPerWeekday(message, conversationData);
+            AnalyticsUtil.updateMessagesPerHour(message, conversationData);
         }
 
         return conversationData;

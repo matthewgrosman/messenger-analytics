@@ -6,7 +6,7 @@ import shared.Constants;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MongoDBUtil {
+public class AnalyticsUtil {
 
     /**
      * Updates the messagesPerPerson HashMap contained within the SingleConversationData object with
@@ -94,5 +94,20 @@ public class MongoDBUtil {
         }
 
         return "";
+    }
+
+    /**
+     * Gets current number of messages as a percent of the total number of messages.
+     *
+     * @param totalNumberOfMessages     A long representing the total number of messages sent in the conversation.
+     * @param currentNumberOfMessages   A long representing the current number of messages we want to find a
+     *                                  percentage for.
+     * @return                          A double representing the proportion of current messages to total
+     *                                  messages as a percentage.
+     */
+    public static double getProportionAsPercentage(long totalNumberOfMessages, int currentNumberOfMessages) {
+        // We need to convert one of these numbers to a decimal type in order to not
+        // just get 0 when dividing the two numbers.
+        return ((currentNumberOfMessages*1.0) / totalNumberOfMessages) * 100;
     }
 }
