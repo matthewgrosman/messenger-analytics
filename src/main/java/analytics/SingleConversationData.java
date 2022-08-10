@@ -2,22 +2,8 @@ package analytics;
 
 import java.util.HashMap;
 
-public class SingleConversationData {
+public class SingleConversationData implements ConversationData {
     public long numberOfMessages;
-    public HashMap<String, Integer> messagesPerPerson;
-    public HashMap<String, Integer> messagesPerMonth;
-    public HashMap<String, Integer> messagesPerWeekday;
-    public HashMap<String, Integer> messagesPerHour;
-
-    /**
-     * Constructor for the SingleConversationData class.
-     */
-    public SingleConversationData() {
-        messagesPerPerson = new HashMap<>();
-        messagesPerMonth = new HashMap<>();
-        messagesPerWeekday = new HashMap<>();
-        messagesPerHour = new HashMap<>();
-    }
 
     /**
      * Prints out the conversation data.
