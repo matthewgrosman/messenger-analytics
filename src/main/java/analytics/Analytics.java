@@ -28,8 +28,15 @@ public class Analytics {
      *                          as null if the user would like to view aggregated data across all conversations.
      */
     public static void getConversationData(String conversationName) {
-        ConversationData conversationData = ConversationDataMongoDB.getConversationData(conversationName);
-        conversationData.printConversationData();
+        // If the user wants to filter down analytics to a specific conversation, we need to ensure
+        // that they have entered a valid conversation name. This statement checks that either the
+        // user does not want to filter down to a specific conversation (meaning conversationName is null
+        // and they want aggregated conversation data), or if a user does want to filter down analytics,
+        // then the conversation is valid.
+        if (conversationName == null || ConversationDataMongoDB.isConversationValid(conversationName)) {
+            ConversationData conversationData = ConversationDataMongoDB.getConversationData(conversationName);
+            conversationData.printConversationData();
+        }
     }
 
     public static void main(String[] args) {

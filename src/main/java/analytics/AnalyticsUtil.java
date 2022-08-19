@@ -9,7 +9,7 @@ import java.util.Date;
 public class AnalyticsUtil {
 
     /**
-     * Updates the messagesPerPerson HashMap contained within the SingleConversationData object with
+     * Updates the messagesPerPerson HashMap contained within the ConversationData object with
      * the data from the current message. Adds message sender name as a key and updates the value associated
      * with the key by 1.
      *
@@ -23,7 +23,22 @@ public class AnalyticsUtil {
     }
 
     /**
-     * Updates the messagesPerMonth HashMap contained within the SingleConversationData object with
+     * Updates the messagesPerConversation HashMap contained within the ConversationData object with the
+     * data from the current message. Adds the conversation name as a key and updates the value associated
+     * with the key by 1.
+     *
+     * @param message           A Document containing the current message and all of it's relevant data.
+     * @param conversationData  A ConversationData object that holds all of the relevant data
+     *                          for analytics.
+     */
+    public static void updateMessagesPerConversation(Document message, ConversationData conversationData) {
+        String conversationName = message.get(Constants.MONGO_CONVERSATION_FIELD_NAME).toString();
+        conversationData.messagesPerConversation.put(conversationName, conversationData.messagesPerConversation.getOrDefault(
+                conversationName, 0) + 1);
+    }
+
+    /**
+     * Updates the messagesPerMonth HashMap contained within the ConversationData object with
      * the data from the current message. Adds the month message was sent as a key and updates the value
      * associated with the key by 1.
      *
@@ -37,7 +52,7 @@ public class AnalyticsUtil {
     }
 
     /**
-     * Updates the messagesPerWeekday HashMap contained within the SingleConversationData object with
+     * Updates the messagesPerWeekday HashMap contained within the ConversationData object with
      * the data from the current message. Adds the day message was sent as a key and updates the value associated
      * with the key by 1.
      *
@@ -51,7 +66,7 @@ public class AnalyticsUtil {
     }
 
     /**
-     * Updates the messagesPerHour HashMap contained within the SingleConversationData object with the
+     * Updates the messagesPerHour HashMap contained within the ConversationData object with the
      * data from the current message. Adds the hour message was sent as a key and updates the value associated
      * with the key by 1.
      *
