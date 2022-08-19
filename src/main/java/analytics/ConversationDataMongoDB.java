@@ -23,8 +23,7 @@ public class ConversationDataMongoDB {
     public static ConversationData getConversationData(String conversationName) {
         ConversationData conversationData = new ConversationData();
 
-        // Apply a filter to the query if the user wants to filter down results to a
-        // specific conversation.
+        // Apply a filter to the query if the user wants to filter down results to a specific conversation.
         BasicDBObject query = new BasicDBObject();
         if (conversationName != null) {
             query.put(Constants.MONGO_CONVERSATION_FIELD_NAME, conversationName);
