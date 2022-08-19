@@ -2,6 +2,8 @@ package analytics;
 
 import shared.MongoDBClient;
 
+import java.util.Scanner;
+
 public class Analytics {
     /**
      * Generates analytics on messages either on single conversation level or aggregated across
@@ -37,12 +39,21 @@ public class Analytics {
             ConversationData conversationData = ConversationDataMongoDB.getConversationData(conversationName);
             conversationData.printConversationData();
         }
+        else {
+            System.out.println("Invalid conversation"); // In future make this into an actual Exception
+        }
     }
 
     public static void main(String[] args) {
         MongoDBClient.getMongoDBConnection();
 
-        getConversationData("BOMB-FIRE");
+        // Gets user input
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter person or conversation name, or leave blank for analytics aggregated across all conversations: ");
+        String input = scanner.nextLine();
+        String conversationName = (input.equals("")) ? null : input;
+        getConversationData(conversationName);
+        scanner.close();
 
         MongoDBClient.closeMongoDBConnection();
     }
