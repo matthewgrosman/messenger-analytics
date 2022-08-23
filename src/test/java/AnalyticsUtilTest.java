@@ -39,6 +39,11 @@ public class AnalyticsUtilTest {
     }
 
     @Test
+    void testUpdateMessagesPerSenderWithUniqueSenders() {
+
+    }
+
+    @Test
     void testUpdateMessagesPerConversationWithNewConversation() {
         ConversationData conversationData = new ConversationData();
         Document validMessage = UnitTestConstants.VALID_MESSAGE_1;
@@ -67,6 +72,11 @@ public class AnalyticsUtilTest {
         int expectedNumberOfMessages = 2;
 
         Assertions.assertEquals(expectedNumberOfMessages, actualNumberOfMessages);
+    }
+
+    @Test
+    void testUpdateMessagesPerConversationWithUniqueConversations() {
+
     }
 
     @Test
@@ -101,6 +111,11 @@ public class AnalyticsUtilTest {
     }
 
     @Test
+    void testUpdateMessagesPerMonthWithUniqueMonths() {
+
+    }
+
+    @Test
     void testUpdateMessagesPerWeekdayWithNewWeekday() {
         ConversationData conversationData = new ConversationData();
         Document validMessage = UnitTestConstants.VALID_MESSAGE_1;
@@ -117,7 +132,7 @@ public class AnalyticsUtilTest {
     void testUpdateMessagesPerWeekdayWithExistingWeekday() {
         ConversationData conversationData = new ConversationData();
 
-        // Both of these messages have the same sent month, to simulate adding two
+        // Both of these messages have the same sent weekday, to simulate adding two
         // messages from the same sent month to the HashMap.
         Document validMessage1 = UnitTestConstants.VALID_MESSAGE_1;
         Document validMessage2 = UnitTestConstants.VALID_MESSAGE_2;
@@ -129,6 +144,11 @@ public class AnalyticsUtilTest {
         int expectedNumberOfMessages = 2;
 
         Assertions.assertEquals(expectedNumberOfMessages, actualNumberOfMessages);
+    }
+
+    @Test
+    void testUpdateMessagesPerWeekdayWithUniqueWeekdays() {
+
     }
 
     @Test
@@ -148,7 +168,7 @@ public class AnalyticsUtilTest {
     void testUpdateMessagesPerHourWithExistingHour() {
         ConversationData conversationData = new ConversationData();
 
-        // Both of these messages have the same sent month, to simulate adding two
+        // Both of these messages have the same sent hour, to simulate adding two
         // messages from the same sent month to the HashMap.
         Document validMessage1 = UnitTestConstants.VALID_MESSAGE_1;
         Document validMessage2 = UnitTestConstants.VALID_MESSAGE_2;
@@ -163,15 +183,38 @@ public class AnalyticsUtilTest {
     }
 
     @Test
+    void testUpdateMessagesPerHourWithUniqueHours() {
+
+    }
+
+    @Test
     void testGetFormattedDateForMonth() {
+        Document validMessage = UnitTestConstants.VALID_MESSAGE_1;
+
+        String expectedMonth = "10-2019";
+        String actualMonth = AnalyticsUtil.getFormattedDate(validMessage, Constants.MONTH_FORMAT);
+
+        Assertions.assertEquals(expectedMonth, actualMonth);
     }
 
     @Test
     void testGetFormattedDateForWeekday() {
+        Document validMessage = UnitTestConstants.VALID_MESSAGE_1;
+
+        String expectedWeekday = "Saturday";
+        String actualWeekday = AnalyticsUtil.getFormattedDate(validMessage, Constants.WEEKDAY_FORMAT);
+
+        Assertions.assertEquals(expectedWeekday, actualWeekday);
     }
 
     @Test
     void testGetFormattedDateForHour() {
+        Document validMessage = UnitTestConstants.VALID_MESSAGE_1;
+
+        String expectedHour = "12:00";
+        String actualHour = AnalyticsUtil.getFormattedDate(validMessage, Constants.HOUR_FORMAT);
+
+        Assertions.assertEquals(expectedHour, actualHour);
     }
 
     @Test

@@ -31,7 +31,7 @@ public final class Constants {
 
     // The database and collection names for MongoDB.
     public static final String MONGO_DATABASE_NAME = "messenger-data";
-    public static final String MONGO_COLLECTION_NAME = "messages-test-4";
+    public static final String MONGO_COLLECTION_NAME = "messages-test-3";
 
     // The types of date formats needed for analytics.
     public static final String MONTH_FORMAT = "MONTH";
@@ -39,15 +39,16 @@ public final class Constants {
     public static final String HOUR_FORMAT = "HOUR";
     public static final String HOUR_SUFFIX = ":00";
 
-    // Map that maps day of the week to its numerical representation (1-7)
+    // Map that maps day of the week to its numerical representation (1-7).
+    // The Calendar class starts the week with Sunday which gives it an index of 1.
     public static final Map<Integer, String> WEEKDAY_INDEX_TO_DAY = Map.of(
-            1, "Monday",
-            2, "Tuesday",
-            3, "Wednesday",
-            4, "Thursday",
-            5, "Friday",
-            6, "Saturday",
-            7, "Sunday");
+            2, "Monday",
+            3, "Tuesday",
+            4, "Wednesday",
+            5, "Thursday",
+            6, "Friday",
+            7, "Saturday",
+            1, "Sunday");
 
     // Exception message for InvalidConversationNameException
     public static final String EXCEPTION_MESSAGE = "Conversation does not exist: ";
