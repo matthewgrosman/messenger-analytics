@@ -87,7 +87,7 @@ public class AnalyticsUtil {
      * @param formatType    A String that denotes what format we want the date in.
      * @return              A String with the correctly formatted date.
      */
-    private static String getFormattedDate(Document document, String formatType) {
+    public static String getFormattedDate(Document document, String formatType) {
         Date date = (Date) document.get(Constants.MONGO_DATE_FIELD_NAME);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -108,6 +108,6 @@ public class AnalyticsUtil {
             return hour + Constants.HOUR_SUFFIX;
         }
 
-        return "";
+        return ""; // turn this into an exception.
     }
 }
