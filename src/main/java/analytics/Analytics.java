@@ -1,5 +1,6 @@
 package analytics;
 
+import shared.Constants;
 import shared.MongoDBClient;
 
 import java.util.Scanner;
@@ -44,8 +45,7 @@ public class Analytics {
             return ConversationDataMongoDB.getConversationData(conversationName);
         }
         else {
-            System.out.println("Invalid conversation"); // In future make this into an actual Exception
-            throw new InvalidConversationNameException("Conversation does not exist.");
+            throw new InvalidConversationNameException(Constants.EXCEPTION_MESSAGE + conversationName);
         }
     }
 
@@ -55,7 +55,7 @@ public class Analytics {
 
         // Gets user input.
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter person or conversation name, or leave blank for analytics aggregated across all conversations: ");
+        System.out.print("Enter person or conversation name, or leave blank for analytics aggregated across all conversations: ");
         String input = scanner.nextLine();
         String conversationName = (input.equals("")) ? null : input;
         scanner.close();

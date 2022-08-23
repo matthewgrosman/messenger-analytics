@@ -5,12 +5,7 @@ package analytics;
  */
 public class InvalidConversationNameException extends Exception {
     /**
-     * Exception that can be thrown without a message.
-     */
-    public InvalidConversationNameException() {}
-
-    /**
-     * Exception that can be thrown with an error message.
+     * Exception constructor for exception that can be thrown with an error message.
      *
      * @param message   A String containing some details about the error.
      */

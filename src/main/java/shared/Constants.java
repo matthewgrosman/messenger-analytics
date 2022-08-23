@@ -39,6 +39,7 @@ public final class Constants {
     public static final String HOUR_FORMAT = "HOUR";
     public static final String HOUR_SUFFIX = ":00";
 
+    // Map that maps day of the week to its numerical representation (1-7)
     public static final Map<Integer, String> WEEKDAY_INDEX_TO_DAY = Map.of(
             1, "Monday",
             2, "Tuesday",
@@ -47,4 +48,7 @@ public final class Constants {
             5, "Friday",
             6, "Saturday",
             7, "Sunday");
+
+    // Exception message for InvalidConversationNameException
+    public static final String EXCEPTION_MESSAGE = "Conversation does not exist: ";
 }
