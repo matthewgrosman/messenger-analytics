@@ -9,7 +9,7 @@ import java.util.Date;
 public class AnalyticsUtil {
 
     /**
-     * Updates the messagesPerPerson HashMap contained within the ConversationData object with
+     * Updates the messagesPerSender HashMap contained within the ConversationData object with
      * the data from the current message. Adds message sender name as a key and updates the value associated
      * with the key by 1.
      *
@@ -17,9 +17,9 @@ public class AnalyticsUtil {
      * @param conversationData  A ConversationData object that holds all of the relevant data
      *                          for analytics.
      */
-    public static void updateMessagesPerPerson(Document message, ConversationData conversationData) {
+    public static void updateMessagesPerSender(Document message, ConversationData conversationData) {
         String sender = message.get(Constants.MONGO_SENDER_FIELD_NAME).toString();
-        conversationData.messagesPerPerson.put(sender, conversationData.messagesPerPerson.getOrDefault(sender, 0) + 1);
+        conversationData.messagesPerSender.put(sender, conversationData.messagesPerSender.getOrDefault(sender, 0) + 1);
     }
 
     /**

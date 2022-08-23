@@ -5,10 +5,10 @@ import java.util.HashMap;
 public class ConversationData {
     public long numberOfMessages;
     public HashMap<String, Integer> messagesPerConversation;
-    HashMap<String, Integer> messagesPerPerson;
-    HashMap<String, Integer> messagesPerMonth;
-    HashMap<String, Integer> messagesPerWeekday;
-    HashMap<String, Integer> messagesPerHour;
+    public HashMap<String, Integer> messagesPerSender;
+    public HashMap<String, Integer> messagesPerMonth;
+    public HashMap<String, Integer> messagesPerWeekday;
+    public HashMap<String, Integer> messagesPerHour;
 
     /**
      * Constructor for the ConversationData class. Initialize all of the HashMaps so that
@@ -16,7 +16,7 @@ public class ConversationData {
      */
     public ConversationData() {
         messagesPerConversation = new HashMap<>();
-        messagesPerPerson = new HashMap<>();
+        messagesPerSender = new HashMap<>();
         messagesPerMonth = new HashMap<>();
         messagesPerWeekday = new HashMap<>();
         messagesPerHour = new HashMap<>();
@@ -41,10 +41,10 @@ public class ConversationData {
         }
         System.out.println();
 
-        for (String key : messagesPerPerson.keySet()) {
+        for (String key : messagesPerSender.keySet()) {
             System.out.printf("Name: " + key
-                    + ", Number of Messages: " + messagesPerPerson.get(key));
-            System.out.printf(" (%.2f%%)%n", getProportionAsPercentage(numberOfMessages, messagesPerPerson.get(key)));
+                    + ", Number of Messages: " + messagesPerSender.get(key));
+            System.out.printf(" (%.2f%%)%n", getProportionAsPercentage(numberOfMessages, messagesPerSender.get(key)));
         }
 
         System.out.println();
