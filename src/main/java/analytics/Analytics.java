@@ -28,33 +28,43 @@ public class Analytics {
      * @param conversationName  A String denoting the current conversation name if the user would like
      *                          to filter results to a single conversation level. This parameter is left
      *                          as null if the user would like to view aggregated data across all conversations.
+     * @return                  A ConversationData object that contains all relevant analytics data collected
+     *                          in this function.
+     *
+     * @throws InvalidConversationNameException Can throw an InvalidConversationNameException if the conversation
+     *                                          name provided by the user does not exist.
      */
-    public static void getConversationData(String conversationName) {
+    public static ConversationData getConversationData(String conversationName) throws InvalidConversationNameException {
         // If the user wants to filter down analytics to a specific conversation, we need to ensure
         // that they have entered a valid conversation name. This statement checks that either the
         // user does not want to filter down to a specific conversation (meaning conversationName is null
         // and they want aggregated conversation data), or if a user does want to filter down analytics,
         // then the conversation is valid.
         if (conversationName == null || ConversationDataMongoDB.isConversationValid(conversationName)) {
-            ConversationData conversationData = ConversationDataMongoDB.getConversationData(conversationName);
-            conversationData.printConversationData();
+            return ConversationDataMongoDB.getConversationData(conversationName);
         }
         else {
             System.out.println("Invalid conversation"); // In future make this into an actual Exception
+            throw new InvalidConversationNameException("Conversation does not exist.");
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InvalidConversationNameException {
+        // Open MongoDB client.
         MongoDBClient.getMongoDBConnection();
 
-        // Gets user input
+        // Gets user input.
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter person or conversation name, or leave blank for analytics aggregated across all conversations: ");
         String input = scanner.nextLine();
         String conversationName = (input.equals("")) ? null : input;
-        getConversationData(conversationName);
         scanner.close();
 
+        // Get and print conversation data.
+        ConversationData conversationData = getConversationData(conversationName);
+        conversationData.printConversationData();
+
+        // Close MongoDB client.
         MongoDBClient.closeMongoDBConnection();
     }
 }

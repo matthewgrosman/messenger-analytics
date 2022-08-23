@@ -17,8 +17,8 @@ public class ConversationDataMongoDB {
      * @param conversationName  A String denoting the current conversation name if the user would like
      *                          to filter results to a single conversation level. This parameter is left
      *                          as null if the user would like to view aggregated data across all conversations.
-     * @return                  An ConversationData object that contains all relevant
-     *                          analytics data collected in this function.
+     * @return                  A ConversationData object that contains all relevant analytics data collected
+     *                          in this function.
      */
     public static ConversationData getConversationData(String conversationName) {
         ConversationData conversationData = new ConversationData();
