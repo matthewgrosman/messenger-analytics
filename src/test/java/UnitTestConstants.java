@@ -6,11 +6,17 @@ import java.util.Date;
 public class UnitTestConstants {
     // Timestamp for use in test messages. This timestamp correlate to the date of:
     // Saturday, October 26th 2019, 12:12:42 pm
-    private static long timestamp1 = 1572117162876L;
+    private static final long timestamp1 = 1572117162876L;
 
     // Timestamp for use in test messages. This timestamp correlate to the date of:
     // Friday, May 7th 2021, 3:33:51 pm
-    private static long timestamp2 = 1620426831850L;
+    private static final long timestamp2 = 1620426831850L;
+
+    // Valid conversation name of an individual conversation.
+    public static final String VALID_INDIVIDUAL_CONVERSATION = "Ashley Kil";
+
+    // Valid conversation name of a group conversation.
+    public static final String VALID_GROUP_CONVERSATION = "BOMB-FIRE";
 
     // These are two valid messages. They have different "_id" and "Content" fields,
     // but the other fields are the same. This is to make it easy to test methods

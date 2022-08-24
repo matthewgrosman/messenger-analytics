@@ -300,7 +300,7 @@ public class AnalyticsUtilTest {
     }
 
     @Test
-    void testGetFormattedDateForInvalidTimePeriod() throws InvalidDateFormatException {
+    void testGetFormattedDateForInvalidTimePeriod() {
         Document validMessage = UnitTestConstants.VALID_MESSAGE_1;
 
         Exception exception = Assertions.assertThrows(InvalidDateFormatException.class, () ->
