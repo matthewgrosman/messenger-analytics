@@ -51,5 +51,8 @@ public final class Constants {
             1, "Sunday");
 
     // Exception message for InvalidConversationNameException
-    public static final String EXCEPTION_MESSAGE = "Conversation does not exist: ";
+    public static final String INVALID_CONV_EXCEPTION_MESSAGE = "Conversation does not exist: ";
+
+    // Exception message for InvalidDateFormatException
+    public static final String INVALID_DATE_EXCEPTION_MESSAGE = "Invalid date format. Format must be of 'MONTH', 'WEEKDAY', or 'HOUR'";
 }

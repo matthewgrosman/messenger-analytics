@@ -46,7 +46,7 @@ public class AnalyticsUtil {
      * @param conversationData  A ConversationData object that holds all of the relevant data
      *                          for analytics.
      */
-    public static void updateMessagesPerMonth(Document message, ConversationData conversationData) {
+    public static void updateMessagesPerMonth(Document message, ConversationData conversationData) throws InvalidDateFormatException {
         String date = getFormattedDate(message, Constants.MONTH_FORMAT);
         conversationData.messagesPerMonth.put(date, conversationData.messagesPerMonth.getOrDefault(date, 0) + 1);
     }
@@ -60,7 +60,7 @@ public class AnalyticsUtil {
      * @param conversationData  A ConversationData object that holds all of the relevant data
      *                          for analytics.
      */
-    public static void updateMessagesPerWeekday(Document message, ConversationData conversationData) {
+    public static void updateMessagesPerWeekday(Document message, ConversationData conversationData) throws InvalidDateFormatException {
         String weekday = getFormattedDate(message, Constants.WEEKDAY_FORMAT);
         conversationData.messagesPerWeekday.put(weekday, conversationData.messagesPerWeekday.getOrDefault(weekday, 0) + 1);
     }
@@ -74,7 +74,7 @@ public class AnalyticsUtil {
      * @param conversationData  A ConversationData object that holds all of the relevant data
      *                          for analytics.
      */
-    public static void updateMessagesPerHour(Document message, ConversationData conversationData) {
+    public static void updateMessagesPerHour(Document message, ConversationData conversationData) throws InvalidDateFormatException {
         String hour = getFormattedDate(message, Constants.HOUR_FORMAT);
         conversationData.messagesPerHour.put(hour, conversationData.messagesPerHour.getOrDefault(hour, 0) + 1);
     }
@@ -87,7 +87,7 @@ public class AnalyticsUtil {
      * @param formatType    A String that denotes what format we want the date in.
      * @return              A String with the correctly formatted date.
      */
-    public static String getFormattedDate(Document document, String formatType) {
+    public static String getFormattedDate(Document document, String formatType) throws InvalidDateFormatException {
         Date date = (Date) document.get(Constants.MONGO_DATE_FIELD_NAME);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -108,6 +108,6 @@ public class AnalyticsUtil {
             return hour + Constants.HOUR_SUFFIX;
         }
 
-        return ""; // turn this into an exception.
+        throw new InvalidDateFormatException(Constants.INVALID_DATE_EXCEPTION_MESSAGE);
     }
 }

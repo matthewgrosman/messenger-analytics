@@ -1,5 +1,6 @@
 import analytics.AnalyticsUtil;
 import analytics.ConversationData;
+import analytics.InvalidDateFormatException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -80,7 +81,7 @@ public class AnalyticsUtilTest {
     }
 
     @Test
-    void testUpdateMessagesPerMonthWithNewMonth() {
+    void testUpdateMessagesPerMonthWithNewMonth() throws InvalidDateFormatException {
         ConversationData conversationData = new ConversationData();
         Document validMessage = UnitTestConstants.VALID_MESSAGE_1;
         AnalyticsUtil.updateMessagesPerMonth(validMessage, conversationData);
@@ -93,7 +94,7 @@ public class AnalyticsUtilTest {
     }
 
     @Test
-    void testUpdateMessagesPerMonthWithExistingMonth() {
+    void testUpdateMessagesPerMonthWithExistingMonth() throws InvalidDateFormatException {
         ConversationData conversationData = new ConversationData();
 
         // Both of these messages have the same sent month, to simulate adding two
@@ -116,7 +117,7 @@ public class AnalyticsUtilTest {
     }
 
     @Test
-    void testUpdateMessagesPerWeekdayWithNewWeekday() {
+    void testUpdateMessagesPerWeekdayWithNewWeekday() throws InvalidDateFormatException {
         ConversationData conversationData = new ConversationData();
         Document validMessage = UnitTestConstants.VALID_MESSAGE_1;
         AnalyticsUtil.updateMessagesPerWeekday(validMessage, conversationData);
@@ -129,7 +130,7 @@ public class AnalyticsUtilTest {
     }
 
     @Test
-    void testUpdateMessagesPerWeekdayWithExistingWeekday() {
+    void testUpdateMessagesPerWeekdayWithExistingWeekday() throws InvalidDateFormatException {
         ConversationData conversationData = new ConversationData();
 
         // Both of these messages have the same sent weekday, to simulate adding two
@@ -152,7 +153,7 @@ public class AnalyticsUtilTest {
     }
 
     @Test
-    void testUpdateMessagesPerHourWithNewHour() {
+    void testUpdateMessagesPerHourWithNewHour() throws InvalidDateFormatException {
         ConversationData conversationData = new ConversationData();
         Document validMessage = UnitTestConstants.VALID_MESSAGE_1;
         AnalyticsUtil.updateMessagesPerHour(validMessage, conversationData);
@@ -165,7 +166,7 @@ public class AnalyticsUtilTest {
     }
 
     @Test
-    void testUpdateMessagesPerHourWithExistingHour() {
+    void testUpdateMessagesPerHourWithExistingHour() throws InvalidDateFormatException {
         ConversationData conversationData = new ConversationData();
 
         // Both of these messages have the same sent hour, to simulate adding two
@@ -188,7 +189,7 @@ public class AnalyticsUtilTest {
     }
 
     @Test
-    void testGetFormattedDateForMonth() {
+    void testGetFormattedDateForMonth() throws InvalidDateFormatException {
         Document validMessage = UnitTestConstants.VALID_MESSAGE_1;
 
         String expectedMonth = "10-2019";
@@ -198,7 +199,7 @@ public class AnalyticsUtilTest {
     }
 
     @Test
-    void testGetFormattedDateForWeekday() {
+    void testGetFormattedDateForWeekday() throws InvalidDateFormatException {
         Document validMessage = UnitTestConstants.VALID_MESSAGE_1;
 
         String expectedWeekday = "Saturday";
@@ -208,7 +209,7 @@ public class AnalyticsUtilTest {
     }
 
     @Test
-    void testGetFormattedDateForHour() {
+    void testGetFormattedDateForHour() throws InvalidDateFormatException {
         Document validMessage = UnitTestConstants.VALID_MESSAGE_1;
 
         String expectedHour = "12:00";
@@ -218,6 +219,14 @@ public class AnalyticsUtilTest {
     }
 
     @Test
-    void testGetFormattedDateForInvalidTimePeriod() {
+    void testGetFormattedDateForInvalidTimePeriod() throws InvalidDateFormatException {
+        Document validMessage = UnitTestConstants.VALID_MESSAGE_1;
+
+        Exception exception = Assertions.assertThrows(InvalidDateFormatException.class, () ->
+                AnalyticsUtil.getFormattedDate(validMessage, "SOME_INVALID_TIME"));
+
+        System.out.println(exception.getMessage());
+
+        Assertions.assertEquals(exception.getMessage(), Constants.INVALID_DATE_EXCEPTION_MESSAGE);
     }
 }

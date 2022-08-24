@@ -34,8 +34,10 @@ public class Analytics {
      *
      * @throws InvalidConversationNameException Can throw an InvalidConversationNameException if the conversation
      *                                          name provided by the user does not exist.
+     * @throws InvalidDateFormatException       ConversationDataMongoDB.getConversationData() can throw an
+     *                                          InvalidDateFormatException.
      */
-    public static ConversationData getConversationData(String conversationName) throws InvalidConversationNameException {
+    public static ConversationData getConversationData(String conversationName) throws InvalidConversationNameException, InvalidDateFormatException {
         // If the user wants to filter down analytics to a specific conversation, we need to ensure
         // that they have entered a valid conversation name. This statement checks that either the
         // user does not want to filter down to a specific conversation (meaning conversationName is null
@@ -45,11 +47,11 @@ public class Analytics {
             return ConversationDataMongoDB.getConversationData(conversationName);
         }
         else {
-            throw new InvalidConversationNameException(Constants.EXCEPTION_MESSAGE + conversationName);
+            throw new InvalidConversationNameException(Constants.INVALID_CONV_EXCEPTION_MESSAGE + conversationName);
         }
     }
 
-    public static void main(String[] args) throws InvalidConversationNameException {
+    public static void main(String[] args) throws InvalidConversationNameException, InvalidDateFormatException {
         // Open MongoDB client.
         MongoDBClient.getMongoDBConnection();
 

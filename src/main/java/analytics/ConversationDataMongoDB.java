@@ -20,7 +20,7 @@ public class ConversationDataMongoDB {
      * @return                  A ConversationData object that contains all relevant analytics data collected
      *                          in this function.
      */
-    public static ConversationData getConversationData(String conversationName) {
+    public static ConversationData getConversationData(String conversationName) throws InvalidDateFormatException {
         ConversationData conversationData = new ConversationData();
 
         // Apply a filter to the query if the user wants to filter down results to a specific conversation.
