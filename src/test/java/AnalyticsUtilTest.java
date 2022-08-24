@@ -41,6 +41,23 @@ public class AnalyticsUtilTest {
 
     @Test
     void testUpdateMessagesPerSenderWithUniqueSenders() {
+        ConversationData conversationData = new ConversationData();
+
+        // Both of these messages have unique senders.
+        Document validMessage1 = UnitTestConstants.VALID_MESSAGE_1;
+        Document validMessage2 = UnitTestConstants.VALID_MESSAGE_3;
+        AnalyticsUtil.updateMessagesPerSender(validMessage1, conversationData);
+        AnalyticsUtil.updateMessagesPerSender(validMessage2, conversationData);
+
+        String senderName1 = (String) validMessage1.get(Constants.MONGO_SENDER_FIELD_NAME);
+        String senderName2 = (String) validMessage2.get(Constants.MONGO_SENDER_FIELD_NAME);
+        int actualNumberOfMessagesSender1 = conversationData.messagesPerSender.get(senderName1);
+        int actualNumberOfMessagesSender2 = conversationData.messagesPerSender.get(senderName2);
+        int expectedNumberOfMessages = 1;
+
+        Assertions.assertNotEquals(senderName1, senderName2);
+        Assertions.assertEquals(expectedNumberOfMessages, actualNumberOfMessagesSender1);
+        Assertions.assertEquals(expectedNumberOfMessages, actualNumberOfMessagesSender2);
 
     }
 
@@ -77,7 +94,23 @@ public class AnalyticsUtilTest {
 
     @Test
     void testUpdateMessagesPerConversationWithUniqueConversations() {
+        ConversationData conversationData = new ConversationData();
 
+        // Both of these messages have unique senders.
+        Document validMessage1 = UnitTestConstants.VALID_MESSAGE_1;
+        Document validMessage2 = UnitTestConstants.VALID_MESSAGE_3;
+        AnalyticsUtil.updateMessagesPerConversation(validMessage1, conversationData);
+        AnalyticsUtil.updateMessagesPerConversation(validMessage2, conversationData);
+
+        String conversationName1 = (String) validMessage1.get(Constants.MONGO_CONVERSATION_FIELD_NAME);
+        String conversationName2 = (String) validMessage2.get(Constants.MONGO_CONVERSATION_FIELD_NAME);
+        int actualNumberOfMessagesSender1 = conversationData.messagesPerConversation.get(conversationName1);
+        int actualNumberOfMessagesSender2 = conversationData.messagesPerConversation.get(conversationName2);
+        int expectedNumberOfMessages = 1;
+
+        Assertions.assertNotEquals(conversationName1, conversationName2);
+        Assertions.assertEquals(expectedNumberOfMessages, actualNumberOfMessagesSender1);
+        Assertions.assertEquals(expectedNumberOfMessages, actualNumberOfMessagesSender2);
     }
 
     @Test
@@ -112,8 +145,24 @@ public class AnalyticsUtilTest {
     }
 
     @Test
-    void testUpdateMessagesPerMonthWithUniqueMonths() {
+    void testUpdateMessagesPerMonthWithUniqueMonths() throws InvalidDateFormatException {
+        ConversationData conversationData = new ConversationData();
 
+        // Both of these messages have unique senders.
+        Document validMessage1 = UnitTestConstants.VALID_MESSAGE_1;
+        Document validMessage2 = UnitTestConstants.VALID_MESSAGE_3;
+        AnalyticsUtil.updateMessagesPerMonth(validMessage1, conversationData);
+        AnalyticsUtil.updateMessagesPerMonth(validMessage2, conversationData);
+
+        String month1 = AnalyticsUtil.getFormattedDate(validMessage1, Constants.MONTH_FORMAT);
+        String month2 = AnalyticsUtil.getFormattedDate(validMessage2, Constants.MONTH_FORMAT);
+        int actualNumberOfMessagesSender1 = conversationData.messagesPerMonth.get(month1);
+        int actualNumberOfMessagesSender2 = conversationData.messagesPerMonth.get(month2);
+        int expectedNumberOfMessages = 1;
+
+        Assertions.assertNotEquals(month1, month2);
+        Assertions.assertEquals(expectedNumberOfMessages, actualNumberOfMessagesSender1);
+        Assertions.assertEquals(expectedNumberOfMessages, actualNumberOfMessagesSender2);
     }
 
     @Test
@@ -148,8 +197,24 @@ public class AnalyticsUtilTest {
     }
 
     @Test
-    void testUpdateMessagesPerWeekdayWithUniqueWeekdays() {
+    void testUpdateMessagesPerWeekdayWithUniqueWeekdays() throws InvalidDateFormatException {
+        ConversationData conversationData = new ConversationData();
 
+        // Both of these messages have unique senders.
+        Document validMessage1 = UnitTestConstants.VALID_MESSAGE_1;
+        Document validMessage2 = UnitTestConstants.VALID_MESSAGE_3;
+        AnalyticsUtil.updateMessagesPerWeekday(validMessage1, conversationData);
+        AnalyticsUtil.updateMessagesPerWeekday(validMessage2, conversationData);
+
+        String weekday1 = AnalyticsUtil.getFormattedDate(validMessage1, Constants.WEEKDAY_FORMAT);
+        String weekday2 = AnalyticsUtil.getFormattedDate(validMessage2, Constants.WEEKDAY_FORMAT);
+        int actualNumberOfMessagesSender1 = conversationData.messagesPerWeekday.get(weekday1);
+        int actualNumberOfMessagesSender2 = conversationData.messagesPerWeekday.get(weekday2);
+        int expectedNumberOfMessages = 1;
+
+        Assertions.assertNotEquals(weekday1, weekday2);
+        Assertions.assertEquals(expectedNumberOfMessages, actualNumberOfMessagesSender1);
+        Assertions.assertEquals(expectedNumberOfMessages, actualNumberOfMessagesSender2);
     }
 
     @Test
@@ -184,8 +249,24 @@ public class AnalyticsUtilTest {
     }
 
     @Test
-    void testUpdateMessagesPerHourWithUniqueHours() {
+    void testUpdateMessagesPerHourWithUniqueHours() throws InvalidDateFormatException {
+        ConversationData conversationData = new ConversationData();
 
+        // Both of these messages have unique senders.
+        Document validMessage1 = UnitTestConstants.VALID_MESSAGE_1;
+        Document validMessage2 = UnitTestConstants.VALID_MESSAGE_3;
+        AnalyticsUtil.updateMessagesPerHour(validMessage1, conversationData);
+        AnalyticsUtil.updateMessagesPerHour(validMessage2, conversationData);
+
+        String hour1 = AnalyticsUtil.getFormattedDate(validMessage1, Constants.HOUR_FORMAT);
+        String hour2 = AnalyticsUtil.getFormattedDate(validMessage2, Constants.HOUR_FORMAT);
+        int actualNumberOfMessagesSender1 = conversationData.messagesPerHour.get(hour1);
+        int actualNumberOfMessagesSender2 = conversationData.messagesPerHour.get(hour2);
+        int expectedNumberOfMessages = 1;
+
+        Assertions.assertNotEquals(hour1, hour2);
+        Assertions.assertEquals(expectedNumberOfMessages, actualNumberOfMessagesSender1);
+        Assertions.assertEquals(expectedNumberOfMessages, actualNumberOfMessagesSender2);
     }
 
     @Test
@@ -224,8 +305,6 @@ public class AnalyticsUtilTest {
 
         Exception exception = Assertions.assertThrows(InvalidDateFormatException.class, () ->
                 AnalyticsUtil.getFormattedDate(validMessage, "SOME_INVALID_TIME"));
-
-        System.out.println(exception.getMessage());
 
         Assertions.assertEquals(exception.getMessage(), Constants.INVALID_DATE_EXCEPTION_MESSAGE);
     }

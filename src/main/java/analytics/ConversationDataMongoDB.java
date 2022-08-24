@@ -19,6 +19,8 @@ public class ConversationDataMongoDB {
      *                          as null if the user would like to view aggregated data across all conversations.
      * @return                  A ConversationData object that contains all relevant analytics data collected
      *                          in this function.
+     * @throws InvalidDateFormatException       ConversationDataMongoDB.getConversationData() can throw an
+     *                                          InvalidDateFormatException.
      */
     public static ConversationData getConversationData(String conversationName) throws InvalidDateFormatException {
         ConversationData conversationData = new ConversationData();

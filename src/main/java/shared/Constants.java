@@ -31,7 +31,7 @@ public final class Constants {
 
     // The database and collection names for MongoDB.
     public static final String MONGO_DATABASE_NAME = "messenger-data";
-    public static final String MONGO_COLLECTION_NAME = "messages-test-3";
+    public static final String MONGO_COLLECTION_NAME = "messages-test-5";
 
     // The types of date formats needed for analytics.
     public static final String MONTH_FORMAT = "MONTH";

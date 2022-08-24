@@ -45,6 +45,8 @@ public class AnalyticsUtil {
      * @param message           A Document containing the current message and all of it's relevant data.
      * @param conversationData  A ConversationData object that holds all of the relevant data
      *                          for analytics.
+     * @throws InvalidDateFormatException       ConversationDataMongoDB.getConversationData() can throw an
+     *                                          InvalidDateFormatException.
      */
     public static void updateMessagesPerMonth(Document message, ConversationData conversationData) throws InvalidDateFormatException {
         String date = getFormattedDate(message, Constants.MONTH_FORMAT);
@@ -59,6 +61,8 @@ public class AnalyticsUtil {
      * @param message           A Document containing the current message and all of it's relevant data.
      * @param conversationData  A ConversationData object that holds all of the relevant data
      *                          for analytics.
+     * @throws InvalidDateFormatException       ConversationDataMongoDB.getConversationData() can throw an
+     *                                          InvalidDateFormatException.
      */
     public static void updateMessagesPerWeekday(Document message, ConversationData conversationData) throws InvalidDateFormatException {
         String weekday = getFormattedDate(message, Constants.WEEKDAY_FORMAT);
@@ -73,6 +77,8 @@ public class AnalyticsUtil {
      * @param message           A Document containing the current message and all of it's relevant data.
      * @param conversationData  A ConversationData object that holds all of the relevant data
      *                          for analytics.
+     * @throws InvalidDateFormatException       ConversationDataMongoDB.getConversationData() can throw an
+     *                                          InvalidDateFormatException.
      */
     public static void updateMessagesPerHour(Document message, ConversationData conversationData) throws InvalidDateFormatException {
         String hour = getFormattedDate(message, Constants.HOUR_FORMAT);
@@ -86,6 +92,8 @@ public class AnalyticsUtil {
      * @param document      A message Document that contains a date field.
      * @param formatType    A String that denotes what format we want the date in.
      * @return              A String with the correctly formatted date.
+     * @throws InvalidDateFormatException       ConversationDataMongoDB.getConversationData() can throw an
+     *                                          InvalidDateFormatException.
      */
     public static String getFormattedDate(Document document, String formatType) throws InvalidDateFormatException {
         Date date = (Date) document.get(Constants.MONGO_DATE_FIELD_NAME);
