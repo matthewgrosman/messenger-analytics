@@ -13,10 +13,10 @@ public class UnitTestConstants {
     private static final long timestamp2 = 1620426831850L;
 
     // Valid conversation name of an individual conversation.
-    public static final String VALID_INDIVIDUAL_CONVERSATION = "Ashley Kil";
+    public static final String VALID_INDIVIDUAL_CONVERSATION = "Person1";
 
     // Valid conversation name of a group conversation.
-    public static final String VALID_GROUP_CONVERSATION = "BOMB-FIRE";
+    public static final String VALID_GROUP_CONVERSATION = "Steven and Bo";
 
     // These are two valid messages. They have different "_id" and "Content" fields,
     // but the other fields are the same. This is to make it easy to test methods
