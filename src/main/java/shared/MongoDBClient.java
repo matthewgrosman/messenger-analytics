@@ -13,10 +13,16 @@ public class MongoDBClient {
      * which will hold all of the messages from the conversations we parse. Going deeper, we access the
      * collection "messages" within the database. We write directly to this collection.
      */
-    public static void getMongoDBConnection() {
+    public static void getMongoDBConnection(String environment) {
         mongoClient = MongoClients.create();
         MongoDatabase messengerDataDatabase = mongoClient.getDatabase(Constants.MONGO_DATABASE_NAME);
-        messagesCollection = messengerDataDatabase.getCollection(Constants.MONGO_COLLECTION_NAME);
+
+        if (environment.equals(Constants.MONGO_PROD_ENVIRONMENT)) {
+            messagesCollection = messengerDataDatabase.getCollection(Constants.MONGO_COLLECTION_NAME_PROD);
+        }
+        else {
+            messagesCollection = messengerDataDatabase.getCollection(Constants.MONGO_COLLECTION_NAME_TEST);
+        }
     }
 
     /**

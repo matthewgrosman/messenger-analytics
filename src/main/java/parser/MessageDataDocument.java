@@ -24,7 +24,6 @@ public class MessageDataDocument {
         document.append(Constants.MONGO_CONVERSATION_FIELD_NAME, ensureSingleQuoteUTF8(conversationName));
         document.append(Constants.MONGO_GROUP_CHAT_FIELD_NAME, isGroupTypeGroupChat(groupType));
         document.append(Constants.MONGO_SENDER_FIELD_NAME, senderName);
-        System.out.println(timestamp);
         document.append(Constants.MONGO_DATE_FIELD_NAME, getTimestampAsDate(timestamp));
 
         // A message may or may not have content. If it does, we add an appropriate field,

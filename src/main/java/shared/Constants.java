@@ -4,7 +4,7 @@ import java.util.Map;
 
 public final class Constants {
     // The folder holding all Facebook Messenger conversations.
-    public static final String MESSAGES_FOLDER = "/Users/matthew/Documents/Message-Data-2022/messages-json/inbox/";
+    public static final String MESSAGES_FOLDER = "/Users/matthew/Documents/Message-Data-2022/messages-json/TEST-DATA/";
 
     // The filename extension of a conversation file.
     public static final String MESSAGES_EXTENSION = "json";
@@ -31,7 +31,10 @@ public final class Constants {
 
     // The database and collection names for MongoDB.
     public static final String MONGO_DATABASE_NAME = "messenger-data";
-    public static final String MONGO_COLLECTION_NAME = "messages-test-3";
+    public static final String MONGO_COLLECTION_NAME_PROD = "messages-PROD";
+    public static final String MONGO_COLLECTION_NAME_TEST = "messages-TEST";
+    public static final String MONGO_TEST_ENVIRONMENT = "MONGO-TEST";
+    public static final String MONGO_PROD_ENVIRONMENT = "MONGO-PROD";
 
     // The types of date formats needed for analytics.
     public static final String MONTH_FORMAT = "MONTH";

@@ -101,7 +101,7 @@ public class ConversationParser {
     public static void main(String[] args) throws IOException {
         File[] conversations = getConversations();
 
-        MongoDBClient.getMongoDBConnection();
+        MongoDBClient.getMongoDBConnection(Constants.MONGO_TEST_ENVIRONMENT);
 
         for (File conversation : conversations) {
             parseConversation(conversation);

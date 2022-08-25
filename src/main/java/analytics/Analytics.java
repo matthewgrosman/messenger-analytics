@@ -53,7 +53,7 @@ public class Analytics {
 
     public static void main(String[] args) throws InvalidConversationNameException, InvalidDateFormatException {
         // Open MongoDB client.
-        MongoDBClient.getMongoDBConnection();
+        MongoDBClient.getMongoDBConnection(Constants.MONGO_PROD_ENVIRONMENT);
 
         // Gets user input.
         Scanner scanner = new Scanner(System.in);
