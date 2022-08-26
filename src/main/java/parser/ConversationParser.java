@@ -13,14 +13,14 @@ import shared.MongoDBClient;
 
 public class ConversationParser {
     /**
-     * Gets relevant information from a message and returns it in the form of a parser.MessageDataDocument
+     * Gets relevant information from a message and returns it in the form of a parser.MessageDocumentUtil
      * object. This includes the conversation name, group type, and message content.
      *
      * @param message           A JsonNode containing the content of a message. This either contains a string
      *                          or is null.
      * @param conversationName  A JsonNode containing the name of the conversation.
      * @param groupType         A JsonNode containing the group type of the conversation.
-     * @return                  A parser.MessageDataDocument that contains all the relevant data from this message.
+     * @return                  A Document that contains all the relevant data from this message.
      */
     public static Document getMessageData(JsonNode message, JsonNode conversationName, JsonNode groupType) {
         // We need to get the sender name, timestamp, and content from each message.
@@ -33,15 +33,20 @@ public class ConversationParser {
         // we take an extra step to ensure it is handled without a null pointer exception.
         String contentString = (content == null) ? null : content.asText();
 
-        return MessageDataDocument.getBSONDocument(conversationName.asText(), groupType.asText(), senderName,
-                timestamp, contentString);
+        return MessageDocumentUtil.getBSONDocument(
+                conversationName.asText(),
+                groupType.asText(),
+                senderName,
+                timestamp,
+                contentString
+        );
     }
 
     /**
      * Takes an individual JSON file that contains messages and parses this file for data.
      *
      * @param messageJson   A JSON file containing messages from a Facebook Messenger conversation.
-     * @return              An ArrayList<parser.MessageDataDocument> that contains parser.MessageDataDocument objects
+     * @return              An ArrayList<parser.MessageDocumentUtil> that contains parser.MessageDocumentUtil objects
      *                      that contain the data from each message from the JSON file
      */
     public static ArrayList<Document> getFileMessagesData(File messageJson) throws IOException {

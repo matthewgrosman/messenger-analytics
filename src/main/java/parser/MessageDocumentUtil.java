@@ -6,7 +6,7 @@ import shared.Constants;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
-public class MessageDataDocument {
+public class MessageDocumentUtil {
     /**
      * Creates a BSON document that contains all of the information for the document we want to send to MongoDB.
      *
