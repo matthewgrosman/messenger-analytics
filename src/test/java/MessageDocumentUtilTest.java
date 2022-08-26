@@ -4,8 +4,6 @@ import org.bson.Document;
 import parser.MessageDocumentUtil;
 import shared.Constants;
 
-import java.util.Date;
-
 public class MessageDocumentUtilTest {
     @Test
     public void testGetBSONDocumentWithContent() {
@@ -23,7 +21,7 @@ public class MessageDocumentUtilTest {
         String expectedContent = "This is my message";
 
         Assertions.assertEquals(expectedConversationName, document.get(Constants.MONGO_CONVERSATION_FIELD_NAME));
-        Assertions.assertEquals(true, document.get(Constants.MONGO_GROUP_CHAT_FIELD_NAME));
+        Assertions.assertTrue((boolean)  document.get(Constants.MONGO_GROUP_CHAT_FIELD_NAME));
         Assertions.assertEquals(expectedSenderName, document.get(Constants.MONGO_SENDER_FIELD_NAME));
         Assertions.assertEquals(expectedDate, document.get(Constants.MONGO_DATE_FIELD_NAME).toString());
         Assertions.assertEquals(expectedContent, document.get(Constants.MONGO_CONTENT_FIELD_NAME));
@@ -44,7 +42,7 @@ public class MessageDocumentUtilTest {
         String expectedDate = UnitTestConstants.TIMESTAMP_1_AS_DATE_STRING;
 
         Assertions.assertEquals(expectedConversationName, document.get(Constants.MONGO_CONVERSATION_FIELD_NAME));
-        Assertions.assertEquals(true, document.get(Constants.MONGO_GROUP_CHAT_FIELD_NAME));
+        Assertions.assertTrue((boolean) document.get(Constants.MONGO_GROUP_CHAT_FIELD_NAME));
         Assertions.assertEquals(expectedSenderName, document.get(Constants.MONGO_SENDER_FIELD_NAME));
         Assertions.assertEquals(expectedDate, document.get(Constants.MONGO_DATE_FIELD_NAME).toString());
 
@@ -64,7 +62,7 @@ public class MessageDocumentUtilTest {
                 null
         );
 
-        Assertions.assertEquals(true, document.get(Constants.MONGO_GROUP_CHAT_FIELD_NAME));
+        Assertions.assertTrue((boolean) document.get(Constants.MONGO_GROUP_CHAT_FIELD_NAME));
     }
 
     @Test
@@ -77,7 +75,7 @@ public class MessageDocumentUtilTest {
                 null
         );
 
-        Assertions.assertEquals(false, document.get(Constants.MONGO_GROUP_CHAT_FIELD_NAME));
+        Assertions.assertFalse((boolean)  document.get(Constants.MONGO_GROUP_CHAT_FIELD_NAME));
     }
 
     @Test
