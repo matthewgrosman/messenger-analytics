@@ -14,7 +14,7 @@ public class ConversationParserUtil {
      *                  name if it is valid, or a null value if otherwise.
      */
     public static JsonNode isSafeAndGet(JsonNode node, String fieldName) {
-        if (!node.isNull() && node.has(fieldName)) {
+        if (node != null && node.has(fieldName)) {
             return node.get(fieldName);
         }
         return null;
