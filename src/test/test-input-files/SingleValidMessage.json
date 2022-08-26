@@ -1,0 +1,12 @@
+{
+  "sender_name":"Matthew Grosman",
+  "timestamp_ms":1538281056531,
+  "content":"Ok no worries, thank you though",
+  "type":"Generic",
+  "is_unsent":false,
+  "is_taken_down":false,
+  "bumped_message_metadata":{
+    "bumped_message":"Ok no worries, thank you though",
+    "is_bumped":false
+  }
+}

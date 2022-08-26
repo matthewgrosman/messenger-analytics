@@ -1,0 +1,34 @@
+{
+  "participants":[
+    {"name":"Person1"},
+    {"name":"Matthew Grosman"}
+  ],
+  "messages":[
+    {
+      "sender_name": "Matthew Grosman",
+      "timestamp_ms": 1512685138863,
+      "gifs": [
+        {
+          "uri": "messages/inbox/ericcasas_gyn7kf6ibq/gifs/20047373_1918895984998906_7152224504758927360_n_508336939523008.gif"
+        }
+      ],
+      "type": "Generic",
+      "ip": "2607:fb90:21de:9a03:7c70:d68f:5a35:249b",
+      "is_unsent": false,
+      "is_taken_down": false,
+      "bumped_message_metadata": {
+        "bumped_message": "",
+        "is_bumped": false
+      }
+    },
+    {"sender_name":"Matthew Grosman","timestamp_ms":1538281056531,"content":"Ok no worries, thank you though","type":"Generic","is_unsent":false,"is_taken_down":false,"bumped_message_metadata":{"bumped_message":"Ok no worries, thank you though","is_bumped":false}},
+    {"sender_name":"Person1","timestamp_ms":1538252862432,"content":"Sorry itâs on hold rn","type":"Generic","is_unsent":false,"is_taken_down":false,"bumped_message_metadata":{"bumped_message":"Sorry itâs on hold rn","is_bumped":false}},
+    {"sender_name":"Person1","timestamp_ms":1538252862377,"content":"You can now message and call each other and see info like Active Status and when you've read messages.","type":"Generic","is_unsent":false,"is_taken_down":false,"bumped_message_metadata":{"is_bumped":false}},
+    {"sender_name":"Matthew Grosman","timestamp_ms":1538244817745,"content":"Is the iClicker2 still available?","type":"Generic","is_unsent":false,"is_taken_down":false,"bumped_message_metadata":{"bumped_message":"Is the iClicker2 still available?","is_bumped":false}}
+  ],
+  "title":"Person1",
+  "is_still_participant":true,
+  "thread_type":"Regular",
+  "thread_path":"inbox/Person1_5x82kvhyiw",
+  "magic_words":[]
+}
