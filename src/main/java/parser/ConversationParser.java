@@ -92,9 +92,12 @@ public class ConversationParser {
     /**
      * This function gets the Facebook Messenger conversations folder, iterates through each
      * conversation, and calls necessary functions to gather data.
+     *
+     * @param folderLocation  String representing the path to Facebook Messenger conversation
+     *                        folder.
      */
-    public static File[] getConversations() {
-        File messagesDirectory = new File(Constants.MESSAGES_FOLDER);
+    public static File[] getConversations(String folderLocation) {
+        File messagesDirectory = new File(folderLocation);
 
         // This line removes the '.DS_Store' file from being considered a conversation while
         // returning the valid conversations. This is, to my knowledge, a Mac OS feature where
@@ -104,14 +107,18 @@ public class ConversationParser {
     }
 
     public static void main(String[] args) throws IOException {
-        File[] conversations = getConversations();
+        File[] conversations = getConversations(Constants.MESSAGES_FOLDER);
 
-        MongoDBClient.getMongoDBConnection(Constants.MONGO_PROD_ENVIRONMENT);
+        if (conversations != null) {
+            MongoDBClient.getMongoDBConnection(Constants.MONGO_PROD_ENVIRONMENT);
 
-        for (File conversation : conversations) {
-            parseConversation(conversation);
+            for (File conversation : conversations) {
+                parseConversation(conversation);
+            }
+
+            MongoDBClient.closeMongoDBConnection();
         }
 
-        MongoDBClient.closeMongoDBConnection();
+
     }
 }

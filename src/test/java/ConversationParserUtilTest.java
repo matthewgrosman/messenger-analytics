@@ -3,7 +3,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import parser.ConversationParserUtil;
-import shared.Constants;
 
 import java.io.File;
 import java.io.IOException;
