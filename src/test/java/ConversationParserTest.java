@@ -8,6 +8,7 @@ import shared.Constants;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class ConversationParserTest {
@@ -78,5 +79,50 @@ public class ConversationParserTest {
         // BSON document .get() doesn't throw a NullPointerException when accessing a key
         // that doesn't exist- it simply returns null).
         Assertions.assertNull(document.get(Constants.MONGO_CONTENT_FIELD_NAME));
+    }
+
+    @Test
+    public void testGetFileMessageDataWithValidFile() throws IOException {
+        File testInputJsonFile = new File("src/test/test-input-files/ValidTestConversationShort.json");
+        ArrayList<Document> documents = ConversationParser.getFileMessagesData(testInputJsonFile);
+
+        int expectedArraySize = 2;
+        Assertions.assertEquals(documents.size(), expectedArraySize);
+
+        // Check first message document is correct
+        Document message1 = documents.get(0);
+
+        String expectedConversationName1 = "Person1";
+        String expectedSenderName1 = "Matthew Grosman";
+        String expectedDate1 = new Date(1538281056531L).toString();
+        String expectedContent1 = "Some content string";
+
+        Assertions.assertEquals(expectedConversationName1, message1.get(Constants.MONGO_CONVERSATION_FIELD_NAME));
+        Assertions.assertFalse((boolean)  message1.get(Constants.MONGO_GROUP_CHAT_FIELD_NAME));
+        Assertions.assertEquals(expectedSenderName1, message1.get(Constants.MONGO_SENDER_FIELD_NAME));
+        Assertions.assertEquals(expectedDate1, message1.get(Constants.MONGO_DATE_FIELD_NAME).toString());
+        Assertions.assertEquals(expectedContent1, message1.get(Constants.MONGO_CONTENT_FIELD_NAME));
+
+        // Check second message document is correct
+        Document message2 = documents.get(1);
+
+        String expectedConversationName2 = "Person1";
+        String expectedSenderName2 = "Person1";
+        String expectedDate2 = new Date(1538252862432L).toString();
+        String expectedContent2 = "This is a message";
+
+        Assertions.assertEquals(expectedConversationName2, message2.get(Constants.MONGO_CONVERSATION_FIELD_NAME));
+        Assertions.assertFalse((boolean)  message2.get(Constants.MONGO_GROUP_CHAT_FIELD_NAME));
+        Assertions.assertEquals(expectedSenderName2, message2.get(Constants.MONGO_SENDER_FIELD_NAME));
+        Assertions.assertEquals(expectedDate2, message2.get(Constants.MONGO_DATE_FIELD_NAME).toString());
+        Assertions.assertEquals(expectedContent2, message2.get(Constants.MONGO_CONTENT_FIELD_NAME));
+    }
+
+    @Test
+    public void testGetFileMessageDataWithInvalidFile() throws IOException {
+        File testInputJsonFile = new File("src/test/test-input-files/EmptyTestConversationFile.json");
+        ArrayList<Document> documents = ConversationParser.getFileMessagesData(testInputJsonFile);
+
+        Assertions.assertEquals(documents.size(), 0);
     }
 }

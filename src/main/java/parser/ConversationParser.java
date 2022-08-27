@@ -46,7 +46,7 @@ public class ConversationParser {
      * Takes an individual JSON file that contains messages and parses this file for data.
      *
      * @param messageJson   A JSON file containing messages from a Facebook Messenger conversation.
-     * @return              An ArrayList<parser.MessageDocumentUtil> that contains parser.MessageDocumentUtil objects
+     * @return              An ArrayList<Document> that contains BSON document objects
      *                      that contain the data from each message from the JSON file
      */
     public static ArrayList<Document> getFileMessagesData(File messageJson) throws IOException {
