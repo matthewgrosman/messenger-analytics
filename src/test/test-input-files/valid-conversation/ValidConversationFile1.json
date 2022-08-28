@@ -1,0 +1,15 @@
+{
+  "participants":[
+    {"name":"Person1"},
+    {"name":"Matthew Grosman"}
+  ],
+  "messages":[
+    {"sender_name":"Matthew Grosman","timestamp_ms":1538281056531,"content":"Some content string","type":"Generic","is_unsent":false,"is_taken_down":false,"bumped_message_metadata":{"bumped_message":"Ok no worries, thank you though","is_bumped":false}},
+    {"sender_name":"Person1","timestamp_ms":1538252862432,"content":"This is a message","type":"Generic","is_unsent":false,"is_taken_down":false,"bumped_message_metadata":{"bumped_message":"Sorry itâs on hold rn","is_bumped":false}}
+  ],
+  "title":"Person1",
+  "is_still_participant":true,
+  "thread_type":"Regular",
+  "thread_path":"inbox/Person1_5x82kvhyiw",
+  "magic_words":[]
+}

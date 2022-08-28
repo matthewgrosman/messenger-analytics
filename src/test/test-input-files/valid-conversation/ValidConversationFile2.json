@@ -1,0 +1,14 @@
+{
+  "participants":[
+    {"name":"Person1"},
+    {"name":"Matthew Grosman"}
+  ],
+  "messages":[
+    {"sender_name":"Matthew Grosman","timestamp_ms":1538281056549,"content":"New content","type":"Generic","is_unsent":false,"is_taken_down":false,"bumped_message_metadata":{"bumped_message":"New content","is_bumped":false}}
+  ],
+  "title":"Person1",
+  "is_still_participant":true,
+  "thread_type":"Regular",
+  "thread_path":"inbox/Person1_5x82kvhyiw",
+  "magic_words":[]
+}
