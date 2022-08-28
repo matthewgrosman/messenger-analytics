@@ -13,17 +13,17 @@ import java.util.Date;
 
 public class ConversationParserTest {
     @Test
-    public void testGetConversationsWithValidFilePath() {
+    public void testGetConversationFoldersWithValidFilePath() {
         String filePath = "src/test/test-input-files";
-        File[] files = ConversationParser.getConversations(filePath);
+        File[] files = ConversationParser.getConversationFolders(filePath);
 
         Assertions.assertEquals(files.length, 4);
     }
 
     @Test
-    public void testGetConversationsWithInvalidFilePath() {
+    public void testGetConversationFoldersWithInvalidFilePath() {
         String filePath = "someFilePathThatDoesntExist";
-        File[] files = ConversationParser.getConversations(filePath);
+        File[] files = ConversationParser.getConversationFolders(filePath);
 
         Assertions.assertNull(files);
     }
@@ -82,9 +82,9 @@ public class ConversationParserTest {
     }
 
     @Test
-    public void testGetFileMessageDataWithValidFile() throws IOException {
+    public void testParseMessageJsonFileWithValidFile() throws IOException {
         File testInputJsonFile = new File("src/test/test-input-files/ValidTestConversationShort.json");
-        ArrayList<Document> documents = ConversationParser.getFileMessagesData(testInputJsonFile);
+        ArrayList<Document> documents = ConversationParser.parseMessageJsonFile(testInputJsonFile);
 
         int expectedArraySize = 2;
         Assertions.assertEquals(documents.size(), expectedArraySize);
@@ -119,9 +119,9 @@ public class ConversationParserTest {
     }
 
     @Test
-    public void testGetFileMessageDataWithInvalidFile() throws IOException {
+    public void testParseMessageJsonFileWithInvalidFile() throws IOException {
         File testInputJsonFile = new File("src/test/test-input-files/EmptyTestConversationFile.json");
-        ArrayList<Document> documents = ConversationParser.getFileMessagesData(testInputJsonFile);
+        ArrayList<Document> documents = ConversationParser.parseMessageJsonFile(testInputJsonFile);
 
         Assertions.assertEquals(documents.size(), 0);
     }

@@ -4,7 +4,7 @@ import java.util.Map;
 
 public final class Constants {
     // The folder holding all Facebook Messenger conversations.
-    public static final String MESSAGES_FOLDER = "/Users/matthew/Documents/Message-Data-2022/messages-json/TEST-DATA/";
+    public static final String MESSAGES_FOLDER = "/Users/matthew/Documents/Message-Data-2022/messages-json/inbox/";
 
     // The filename extension of a conversation file.
     public static final String MESSAGES_EXTENSION = "json";

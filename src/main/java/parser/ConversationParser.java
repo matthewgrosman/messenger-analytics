@@ -13,8 +13,9 @@ import shared.MongoDBClient;
 
 public class ConversationParser {
     /**
-     * Gets relevant information from a message and returns it in the form of a parser.MessageDocumentUtil
-     * object. This includes the conversation name, group type, and message content.
+     * Gets relevant information from a single message message in a JSON file and returns
+     * it in the form of a BSON Document object. This includes the conversation name,
+     * group type, and message content.
      *
      * @param message           A JsonNode containing the content of a message. This either contains a string
      *                          or is null.
@@ -46,10 +47,10 @@ public class ConversationParser {
      * Takes an individual JSON file that contains messages and parses this file for data.
      *
      * @param messageJson   A JSON file containing messages from a Facebook Messenger conversation.
-     * @return              An ArrayList<Document> that contains BSON document objects
-     *                      that contain the data from each message from the JSON file
+     * @return              An ArrayList<Document> of BSON document objects  that contain the data
+     *                      from each message in the single JSON file.
      */
-    public static ArrayList<Document> getFileMessagesData(File messageJson) throws IOException {
+    public static ArrayList<Document> parseMessageJsonFile(File messageJson) throws IOException {
         ArrayList<Document> messageDataDocuments = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
         JsonNode rootNode = mapper.readTree(messageJson);
@@ -74,29 +75,36 @@ public class ConversationParser {
      *
      * @param conversationFolder  File object representing a folder that contains all the conversation
      *                            data for a specific chat on Facebook Messenger.
+     * @return                    An ArrayList<Document> of BSON document objects that contain the data
+     *                            from each message in the conversation folder.
+     *
      */
-    public static void parseConversation(File conversationFolder) throws IOException {
+    public static ArrayList<Document> parseConversationFolderFiles(File conversationFolder) throws IOException {
         // Each conversation folder can hold several things- namely sub-folders for photos,
-        // gifs and other information. We just want the actual conversations- these are
+        // gifs and other information. We just want the actual messages- these are
         // stored in JSON files (they are the only file stored as a JSON, so we can use
         // this filename extension to identify them). Once we have identified the message
         // JSON, we send it to a function that parses that file and send data to MongoDB.
+        ArrayList<Document> messageDataDocuments = new ArrayList<>();
+
         for (File file : conversationFolder.listFiles()) {
             if (FilenameUtils.getExtension(file.getName()).equals(Constants.MESSAGES_EXTENSION)) {
-                ArrayList<Document> messageDataDocuments = getFileMessagesData(file);
-                MongoDBWriter.writeMessageDataDocuments(messageDataDocuments);
+                messageDataDocuments.addAll(parseMessageJsonFile(file));
             }
         }
+
+        return messageDataDocuments;
     }
 
     /**
-     * This function gets the Facebook Messenger conversations folder, iterates through each
-     * conversation, and calls necessary functions to gather data.
+     * Each conversation's messages (i.e. the chat between you and someone else, or a group
+     * chat) is stored in a single unique folder belonging to only that conversation. This
+     * function grabs all of those conversation folders and returns them as an array.
      *
      * @param folderLocation  String representing the path to Facebook Messenger conversation
      *                        folder.
      */
-    public static File[] getConversations(String folderLocation) {
+    public static File[] getConversationFolders(String folderLocation) {
         File messagesDirectory = new File(folderLocation);
 
         // This line removes the '.DS_Store' file from being considered a conversation while
@@ -107,18 +115,17 @@ public class ConversationParser {
     }
 
     public static void main(String[] args) throws IOException {
-        File[] conversations = getConversations(Constants.MESSAGES_FOLDER);
+        File[] conversations = getConversationFolders(Constants.MESSAGES_FOLDER);
 
         if (conversations != null) {
             MongoDBClient.getMongoDBConnection(Constants.MONGO_COLLECTION_NAME_PROD);
 
             for (File conversation : conversations) {
-                parseConversation(conversation);
+                ArrayList<Document> messages = parseConversationFolderFiles(conversation);
+                MongoDBWriter.writeMessageDataDocuments(messages);
             }
 
             MongoDBClient.closeMongoDBConnection();
         }
-
-
     }
 }
