@@ -33,8 +33,6 @@ public final class Constants {
     public static final String MONGO_DATABASE_NAME = "messenger-data";
     public static final String MONGO_COLLECTION_NAME_PROD = "messages-PROD";
     public static final String MONGO_COLLECTION_NAME_TEST = "messages-TEST";
-    public static final String MONGO_TEST_ENVIRONMENT = "MONGO-TEST";
-    public static final String MONGO_PROD_ENVIRONMENT = "MONGO-PROD";
 
     // The types of date formats needed for analytics.
     public static final String MONTH_FORMAT = "MONTH";

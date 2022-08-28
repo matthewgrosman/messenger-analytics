@@ -12,7 +12,7 @@ import shared.MongoDBClient;
 public class ConversationDataMongoDBTest {
     @BeforeAll
     static void establishMongoConnection() {
-        MongoDBClient.getMongoDBConnection(Constants.MONGO_TEST_ENVIRONMENT);
+        MongoDBClient.getMongoDBConnection(Constants.MONGO_COLLECTION_NAME_TEST);
     }
 
     @AfterAll

@@ -110,7 +110,7 @@ public class ConversationParser {
         File[] conversations = getConversations(Constants.MESSAGES_FOLDER);
 
         if (conversations != null) {
-            MongoDBClient.getMongoDBConnection(Constants.MONGO_PROD_ENVIRONMENT);
+            MongoDBClient.getMongoDBConnection(Constants.MONGO_COLLECTION_NAME_PROD);
 
             for (File conversation : conversations) {
                 parseConversation(conversation);

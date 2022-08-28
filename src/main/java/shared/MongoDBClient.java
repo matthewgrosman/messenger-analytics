@@ -16,13 +16,8 @@ public class MongoDBClient {
     public static void getMongoDBConnection(String environment) {
         mongoClient = MongoClients.create();
         MongoDatabase messengerDataDatabase = mongoClient.getDatabase(Constants.MONGO_DATABASE_NAME);
+        messagesCollection = messengerDataDatabase.getCollection(environment);
 
-        if (environment.equals(Constants.MONGO_PROD_ENVIRONMENT)) {
-            messagesCollection = messengerDataDatabase.getCollection(Constants.MONGO_COLLECTION_NAME_PROD);
-        }
-        else {
-            messagesCollection = messengerDataDatabase.getCollection(Constants.MONGO_COLLECTION_NAME_TEST);
-        }
     }
 
     /**
