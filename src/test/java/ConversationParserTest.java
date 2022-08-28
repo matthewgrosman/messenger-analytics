@@ -8,7 +8,6 @@ import shared.Constants;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -128,7 +127,7 @@ public class ConversationParserTest {
     }
 
     @Test
-    public void testParseConversationFolderFilesWtihValidDirectory() throws IOException {
+    public void testParseConversationFolderFilesWithValidDirectory() throws IOException {
         File validConversationPath = new File("src/test/test-input-files/valid-conversation");
         ArrayList<Document> messages = ConversationParser.parseConversationFolderFiles(validConversationPath);
 
@@ -160,7 +159,7 @@ public class ConversationParserTest {
         Assertions.assertEquals(expectedDate2, message2.get(Constants.MONGO_DATE_FIELD_NAME).toString());
         Assertions.assertEquals(expectedContent2, message2.get(Constants.MONGO_CONTENT_FIELD_NAME));
 
-        // Check second message document is correct
+        // Check third message document is correct
         Document message3 = messages.get(2);
 
         String expectedConversationName3 = "Person1";
@@ -173,6 +172,12 @@ public class ConversationParserTest {
         Assertions.assertEquals(expectedSenderName3, message3.get(Constants.MONGO_SENDER_FIELD_NAME));
         Assertions.assertEquals(expectedDate3, message3.get(Constants.MONGO_DATE_FIELD_NAME).toString());
         Assertions.assertEquals(expectedContent3, message3.get(Constants.MONGO_CONTENT_FIELD_NAME));
+    }
 
+    @Test
+    public void testParseConversationFolderFilesWithInvalidDirectory() throws IOException {
+        File validConversationPath = new File("src/test/93048242m2mc423mc20c/SOMEINVALIDPATHTHATDOESNTEXIST");
+        Assertions.assertThrows(NullPointerException.class, () ->
+                ConversationParser.parseConversationFolderFiles(validConversationPath));
     }
 }

@@ -47,7 +47,7 @@ public class Analytics {
             return ConversationDataMongoDB.getConversationData(conversationName);
         }
         else {
-            throw new InvalidConversationNameException(Constants.INVALID_CONV_EXCEPTION_MESSAGE + conversationName);
+            throw new InvalidConversationNameException(Constants.INVALID_CONV_NAME_EXCEPTION_MESSAGE + conversationName);
         }
     }
 
