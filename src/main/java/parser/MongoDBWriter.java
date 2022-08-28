@@ -12,6 +12,8 @@ public class MongoDBWriter {
      * @param messageDataDocuments  An ArrayList of MessageDataDocuments that need to be written to MongoDB.
      */
     public static void writeMessageDataDocuments(ArrayList<Document> messageDataDocuments) {
-        MongoDBClient.messagesCollection.insertMany(messageDataDocuments);
+        if (messageDataDocuments.size() > 0) {
+            MongoDBClient.messagesCollection.insertMany(messageDataDocuments);
+        }
     }
 }
