@@ -17,7 +17,6 @@ public class MongoDBClient {
         mongoClient = MongoClients.create();
         MongoDatabase messengerDataDatabase = mongoClient.getDatabase(Constants.MONGO_DATABASE_NAME);
         messagesCollection = messengerDataDatabase.getCollection(environment);
-
     }
 
     /**

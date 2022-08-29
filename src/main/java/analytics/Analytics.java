@@ -1,8 +1,10 @@
 package analytics;
 
+import excel.ExcelWriter;
 import shared.Constants;
 import shared.MongoDBClient;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Analytics {
@@ -51,9 +53,9 @@ public class Analytics {
         }
     }
 
-    public static void main(String[] args) throws InvalidConversationNameException, InvalidDateFormatException {
+    public static void main(String[] args) throws InvalidConversationNameException, InvalidDateFormatException, IOException {
         // Open MongoDB client.
-        MongoDBClient.getMongoDBConnection(Constants.MONGO_COLLECTION_NAME_TEST);
+        MongoDBClient.getMongoDBConnection(Constants.MONGO_COLLECTION_NAME_PROD);
 
         // Gets user input.
         Scanner scanner = new Scanner(System.in);
@@ -64,7 +66,8 @@ public class Analytics {
 
         // Get and print conversation data.
         ConversationData conversationData = getConversationData(conversationName);
-        conversationData.printConversationData();
+        //conversationData.printConversationData();
+        ExcelWriter.writeToExcel(conversationName, conversationData);
 
         // Close MongoDB client.
         MongoDBClient.closeMongoDBConnection();

@@ -51,9 +51,30 @@ public final class Constants {
             7, "Saturday",
             1, "Sunday");
 
-    // Exception message for InvalidConversationNameException
+    // Exception message for InvalidConversationNameException.
     public static final String INVALID_CONV_NAME_EXCEPTION_MESSAGE = "Conversation does not exist: ";
 
-    // Exception message for InvalidDateFormatException
+    // Exception message for InvalidDateFormatException.
     public static final String INVALID_DATE_EXCEPTION_MESSAGE = "Invalid date format. Format must be of 'MONTH', 'WEEKDAY', or 'HOUR'";
+
+    // Excel Sheet prefix.
+    public static final String EXCEL_SHEET_PREFIX = "messagesPer";
+
+    // Excel Sheet names/column headers.
+    public static final String EXCEL_MESSAGES_PER_CONVERSATION = "Conversation";
+    public static final String EXCEL_MESSAGES_PER_SENDER = "Sender";
+    public static final String EXCEL_MESSAGES_PER_MONTH = "Month";
+    public static final String EXCEL_MESSAGES_PER_WEEKDAY = "Weekday";
+    public static final String EXCEL_MESSAGES_PER_HOUR = "Hour";
+    public static final String EXCEL_NUM_MESSAGES_COLUMN_NAME = "NumberOfMessages";
+
+    // Excel column numbers.
+    public static final int EXCEL_NAME_COLUMN_NUMBER = 0;
+    public static final int EXCEL_DATA_COLUMN_NUMBER = 1;
+
+    // The folder that Excel files are written to.
+    public static final String EXCEL_OUTPUT_FOLDER = "/Users/matthew/Documents/programming/message-data-excel-output/";
+
+    // Excel file extension
+    public static final String EXCEL_FILE_EXTENSION = ".xlsx";
 }
