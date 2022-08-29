@@ -29,6 +29,7 @@ public class ExcelWriter {
         workbook = new XSSFWorkbook();
 
         // For each analytic, create a new sheet and write the data.
+        writeAnalyticToSheet(conversationData.numberOfMessages, Constants.EXCEL_TOTAL_MESSAGES);
         writeAnalyticToSheet(conversationData.messagesPerConversation, Constants.EXCEL_MESSAGES_PER_CONVERSATION);
         writeAnalyticToSheet(conversationData.messagesPerSender, Constants.EXCEL_MESSAGES_PER_SENDER);
         writeAnalyticToSheet(conversationData.messagesPerMonth, Constants.EXCEL_MESSAGES_PER_MONTH);
@@ -74,6 +75,32 @@ public class ExcelWriter {
             row.createCell(Constants.EXCEL_NAME_COLUMN_NUMBER).setCellValue(entry.getKey());
             row.createCell(Constants.EXCEL_DATA_COLUMN_NUMBER).setCellValue(entry.getValue());
         }
+    }
+
+    /**
+     * Given the analytic number of messages, write this data to a new Excel sheet in the workbook.
+     *
+     * @param numberOfMessages  A long representing the total number of messages for a conversation.
+     * @param analyticName      A String representing the current analytic name.
+     */
+    private static void writeAnalyticToSheet(long numberOfMessages, String analyticName) {
+        // Create a new sheet for each analytic type we deal with. Unlike the other metrics,
+        // simply using the analyticName for the sheet name (in this case it is
+        // "TotalNumberOfMessages") is good enough, and works better without prepending
+        // the prefix (to make it "messagesPerTotalNumberOfMessages").
+        Sheet sheet = workbook.createSheet(analyticName);
+
+        // Keeps track of the current row we are writing to in the sheet.
+        int rowIndexNumber = 0;
+
+        // Create the header row. This is just a single column
+        Row header = sheet.createRow(rowIndexNumber);
+        header.createCell(Constants.EXCEL_NAME_COLUMN_NUMBER).setCellValue(analyticName);
+
+        // Write the data to the sheet. For this analytic, we are just writing a single value, the
+        // number of messages for the conversation.
+        Row row = sheet.createRow(++rowIndexNumber);
+        row.createCell(Constants.EXCEL_NAME_COLUMN_NUMBER).setCellValue(numberOfMessages);
     }
 
     /**

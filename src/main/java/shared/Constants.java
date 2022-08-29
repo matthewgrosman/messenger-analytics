@@ -66,6 +66,7 @@ public final class Constants {
     public static final String EXCEL_MESSAGES_PER_MONTH = "Month";
     public static final String EXCEL_MESSAGES_PER_WEEKDAY = "Weekday";
     public static final String EXCEL_MESSAGES_PER_HOUR = "Hour";
+    public static final String EXCEL_TOTAL_MESSAGES = "TotalNumberOfMessages";
     public static final String EXCEL_NUM_MESSAGES_COLUMN_NAME = "NumberOfMessages";
 
     // Excel column numbers.
