@@ -14,3 +14,17 @@ After the MongoDB database is populated with all of the nececsary message data, 
 
 ## What tools does this project use to make it work?
 The project uses MongoDB to store all of the neccesary Facebook Messenger message data for generating analytics. I took advantage of the MongoDB Java Driver to manage all MongoDB uses such as connecting, writing and reading from a local MongoDB database.
+
+
+## Steps to use this project on your own Facebook Messenger data
+1. Download your Facebook Messenger conversation data at: https://www.facebook.com/dyi/. When prompted, select JSON for the format and only "Messages" for the type of data you want to download.
+
+2. Set up a local MongoDB instance to use for this project. I did this manually using MongoDB Compass (https://www.mongodb.com/try/download/compass). I just have this configured to receive traffic by sending requests to localhost, but feel free to change this to whatever IP you like. Create a new database on this instance with the title "messenger-data". It will prompt you to add a collection- add one with the name "messages-PROD".
+
+3. Clone this repository to your machine.
+
+4. Change the "MESSAGES_FOLDER" and "EXCEL_OUTPUT_FOLDER" variables in shared/Constants.java. The first variable "MESSAGES_DIRECTORY" points to the inbox directory in the download Facebook provided. The project expects that this is the directory given from this variable, so update it to whatever file path that is on your machine. The second variable, "EXCEL_OUTPUT_FOLDER" points to where you want analytic Excel files written to on your machine, this directory can be anywhere you like.
+
+5. Run "ConversationParser.java", and once that is completed without any exceptions, run "Analytics.java". Either enter a conversation name (i.e. the name of an individual conversation like "John Smith", or a group chat like "My Group Chat", or simply leave the input blank and press enter to generate analytics aggregated across all conversations.).
+
+6. Go to the Excel output file, and your Facebook Messenger analytics data is there!
