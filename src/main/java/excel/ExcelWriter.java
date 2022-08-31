@@ -110,6 +110,13 @@ public class ExcelWriter {
      * @throws IOException      Can throw an IOException from .write() method.
      */
     private static void writeToOutputFile(String conversationName) throws IOException {
+        // A null conversation name means the user has requested to see aggregated conversation data.
+        // If we leave this as null, the output filename will be "null-2022-08-07...", so we change it
+        // to "All-Conversations" for a better filename.
+        if (conversationName == null) {
+            conversationName = "All-Conversations";
+        }
+
         // Create a unique file name in the format of conversationName + the current date and time.
         String outputFile = Constants.EXCEL_OUTPUT_FOLDER + conversationName + "-" + java.time.LocalDateTime.now()
                 + Constants.EXCEL_FILE_EXTENSION;
