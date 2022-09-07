@@ -64,9 +64,8 @@ public class Analytics {
         String conversationName = (input.equals("")) ? null : input;
         scanner.close();
 
-        // Get and print conversation data.
+        // Get the conversation data and write it to an Excel file.
         ConversationData conversationData = getConversationData(conversationName);
-        //conversationData.printConversationData();
         ExcelWriter.writeToExcel(conversationName, conversationData);
 
         // Close MongoDB client.
