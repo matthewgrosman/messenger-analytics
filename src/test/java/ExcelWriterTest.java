@@ -28,6 +28,10 @@ public class ExcelWriterTest {
         ConversationData conversationData = Analytics.getConversationData(
                 UnitTestConstants.VALID_INDIVIDUAL_CONVERSATION);
         ExcelWriter.writeToExcel(UnitTestConstants.VALID_INDIVIDUAL_CONVERSATION, conversationData);
+
+        ConversationData conversationData2 = Analytics.getConversationData(
+                UnitTestConstants.VALID_GROUP_CONVERSATION);
+        ExcelWriter.writeToExcel(UnitTestConstants.VALID_GROUP_CONVERSATION, conversationData2);
     }
 
     @AfterAll
@@ -139,6 +143,113 @@ public class ExcelWriterTest {
         Assertions.assertEquals(row4.getCell(0).toString(), "21:00");
         Assertions.assertEquals(row4.getCell(1).getNumericCellValue(), expectedNumberOfMessagesHour1);
     }
+
+    @Test
+    public void testWriteToExcelWritesGroupConversationTotalNumberOfMessagesCorrectly() throws IOException {
+        double expectedNumberOfMessages = 10.0;
+
+        Sheet sheet = getWorkbookSheet(UnitTestConstants.VALID_GROUP_CONVERSATION, Constants.EXCEL_TOTAL_MESSAGES);
+        Row row = sheet.getRow(0);
+        Assertions.assertEquals(row.getCell(0).toString(), Constants.EXCEL_TOTAL_MESSAGES);
+        Row row2 = sheet.getRow(1);
+        Assertions.assertEquals(row2.getCell(0).getNumericCellValue(), expectedNumberOfMessages);
+    }
+
+    @Test
+    public void testWriteToExcelWritesGroupConversationMessagesPerConversationCorrectly() throws IOException {
+        double expectedNumberOfMessages = 10.0;
+
+        Sheet sheet = getWorkbookSheet(UnitTestConstants.VALID_GROUP_CONVERSATION,
+                Constants.EXCEL_SHEET_PREFIX + Constants.EXCEL_MESSAGES_PER_CONVERSATION);
+
+        Row row = sheet.getRow(0);
+        Assertions.assertEquals(row.getCell(0).toString(), Constants.EXCEL_MESSAGES_PER_CONVERSATION);
+        Assertions.assertEquals(row.getCell(1).toString(), Constants.EXCEL_NUM_MESSAGES_COLUMN_NAME);
+
+        Row row2 = sheet.getRow(1);
+        Assertions.assertEquals(row2.getCell(0).toString(), UnitTestConstants.VALID_GROUP_CONVERSATION);
+        Assertions.assertEquals(row2.getCell(1).getNumericCellValue(), expectedNumberOfMessages);
+    }
+
+    @Test
+    public void testWriteToExcelWritesGroupConversationMessagesPerSenderCorrectly() throws IOException {
+        double expectedNumberOfMessagesSender1 = 2.0;
+        double expectedNumberOfMessagesSender2 = 6.0;
+
+        Sheet sheet = getWorkbookSheet(UnitTestConstants.VALID_GROUP_CONVERSATION,
+                Constants.EXCEL_SHEET_PREFIX + Constants.EXCEL_MESSAGES_PER_SENDER);
+
+        Row row = sheet.getRow(0);
+        Assertions.assertEquals(row.getCell(0).toString(), Constants.EXCEL_MESSAGES_PER_SENDER);
+        Assertions.assertEquals(row.getCell(1).toString(), Constants.EXCEL_NUM_MESSAGES_COLUMN_NAME);
+
+        Row row2 = sheet.getRow(1);
+        Assertions.assertEquals(row2.getCell(0).toString(), "Matthew Grosman");
+        Assertions.assertEquals(row2.getCell(1).getNumericCellValue(), expectedNumberOfMessagesSender1);
+
+        Row row3 = sheet.getRow(2);
+        Assertions.assertEquals(row3.getCell(0).toString(), "Steven Juana");
+        Assertions.assertEquals(row3.getCell(1).getNumericCellValue(), expectedNumberOfMessagesSender2);
+
+        Row row4 = sheet.getRow(3);
+        Assertions.assertEquals(row4.getCell(0).toString(), "Bo Bramer");
+        Assertions.assertEquals(row4.getCell(1).getNumericCellValue(), expectedNumberOfMessagesSender1);
+    }
+
+    @Test
+    public void testWriteToExcelWritesGroupConversationMessagesPerMonthCorrectly() throws IOException {
+        double expectedNumberOfMessages = 10.0;
+
+        Sheet sheet = getWorkbookSheet(UnitTestConstants.VALID_GROUP_CONVERSATION,
+                Constants.EXCEL_SHEET_PREFIX + Constants.EXCEL_MESSAGES_PER_MONTH);
+
+        Row row = sheet.getRow(0);
+        Assertions.assertEquals(row.getCell(0).toString(), Constants.EXCEL_MESSAGES_PER_MONTH);
+        Assertions.assertEquals(row.getCell(1).toString(), Constants.EXCEL_NUM_MESSAGES_COLUMN_NAME);
+
+        Row row2 = sheet.getRow(1);
+        Assertions.assertEquals(row2.getCell(0).toString(), "6-2019");
+        Assertions.assertEquals(row2.getCell(1).getNumericCellValue(), expectedNumberOfMessages);
+    }
+
+    @Test
+    public void testWriteToExcelWritesGroupConversationMessagesPerWeekdayCorrectly() throws IOException {
+        double expectedNumberOfMessages = 10.0;
+
+        Sheet sheet = getWorkbookSheet(UnitTestConstants.VALID_GROUP_CONVERSATION,
+                Constants.EXCEL_SHEET_PREFIX + Constants.EXCEL_MESSAGES_PER_WEEKDAY);
+
+        Row row = sheet.getRow(0);
+        Assertions.assertEquals(row.getCell(0).toString(), Constants.EXCEL_MESSAGES_PER_WEEKDAY);
+        Assertions.assertEquals(row.getCell(1).toString(), Constants.EXCEL_NUM_MESSAGES_COLUMN_NAME);
+
+        Row row2 = sheet.getRow(1);
+        Assertions.assertEquals(row2.getCell(0).toString(), "Friday");
+        Assertions.assertEquals(row2.getCell(1).getNumericCellValue(), expectedNumberOfMessages);
+    }
+
+    @Test
+    public void testWriteToExcelWritesGroupConversationMessagesPerHourCorrectly() throws IOException {
+        double expectedNumberOfMessagesHour1 = 7.0;
+        double expectedNumberOfMessagesHour2 = 3.0;
+
+        Sheet sheet = getWorkbookSheet(UnitTestConstants.VALID_GROUP_CONVERSATION,
+                Constants.EXCEL_SHEET_PREFIX + Constants.EXCEL_MESSAGES_PER_HOUR);
+
+        Row row = sheet.getRow(0);
+        Assertions.assertEquals(row.getCell(0).toString(), Constants.EXCEL_MESSAGES_PER_HOUR);
+        Assertions.assertEquals(row.getCell(1).toString(), Constants.EXCEL_NUM_MESSAGES_COLUMN_NAME);
+
+        Row row2 = sheet.getRow(1);
+        Assertions.assertEquals(row2.getCell(0).toString(), "20:00");
+        Assertions.assertEquals(row2.getCell(1).getNumericCellValue(), expectedNumberOfMessagesHour1);
+
+        Row row3 = sheet.getRow(2);
+        Assertions.assertEquals(row3.getCell(0).toString(), "21:00");
+        Assertions.assertEquals(row3.getCell(1).getNumericCellValue(), expectedNumberOfMessagesHour2);
+    }
+
+    // Just pass a null conversation name into writeToExcel() to test all conversations.
 
     private Sheet getWorkbookSheet(String conversationName, String sheetName) throws IOException {
         String outputFile = Constants.EXCEL_OUTPUT_FOLDER + conversationName + "-" + java.time.LocalDate.now()
