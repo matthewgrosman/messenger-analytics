@@ -1,11 +1,12 @@
 package excel;
 
+import shared.Constants;
+
 import analytics.ConversationData;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import shared.Constants;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -118,7 +119,7 @@ public class ExcelWriter {
         }
 
         // Create a unique file name in the format of conversationName + the current date and time.
-        String outputFile = Constants.EXCEL_OUTPUT_FOLDER + conversationName + "-" + java.time.LocalDateTime.now()
+        String outputFile = Constants.EXCEL_OUTPUT_FOLDER + conversationName + "-" + java.time.LocalDate.now()
                 + Constants.EXCEL_FILE_EXTENSION;
 
         FileOutputStream outputStream = new FileOutputStream(outputFile);
