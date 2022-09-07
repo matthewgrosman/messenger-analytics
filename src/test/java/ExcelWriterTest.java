@@ -16,6 +16,9 @@ import shared.MongoDBClient;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class ExcelWriterTest {
     @BeforeAll
@@ -43,6 +46,30 @@ public class ExcelWriterTest {
     @AfterAll
     static void closeMongoConnection() {
         MongoDBClient.closeMongoDBConnection();
+    }
+
+    @Test
+    public void testIndividualConversationFileIsWrittenToCorrectLocationAndExists() {
+        String outputFile = Constants.EXCEL_OUTPUT_FOLDER + UnitTestConstants.VALID_INDIVIDUAL_CONVERSATION
+                + "-" + java.time.LocalDate.now() + Constants.EXCEL_FILE_EXTENSION;
+        Path path = Paths.get(outputFile);
+        Assertions.assertTrue(Files.exists(path));
+    }
+
+    @Test
+    public void testGroupConversationFileIsWrittenToCorrectLocationAndExists() {
+        String outputFile = Constants.EXCEL_OUTPUT_FOLDER + UnitTestConstants.VALID_GROUP_CONVERSATION
+                + "-" + java.time.LocalDate.now() + Constants.EXCEL_FILE_EXTENSION;
+        Path path = Paths.get(outputFile);
+        Assertions.assertTrue(Files.exists(path));
+    }
+
+    @Test
+    public void testAllConversationsFileIsWrittenToCorrectLocationAndExists() {
+        String outputFile = Constants.EXCEL_OUTPUT_FOLDER + Constants.EXCEL_ALL_CONVERSATIONS_FILE_PREFIX
+                + "-" + java.time.LocalDate.now() + Constants.EXCEL_FILE_EXTENSION;
+        Path path = Paths.get(outputFile);
+        Assertions.assertTrue(Files.exists(path));
     }
 
     @Test
@@ -390,7 +417,6 @@ public class ExcelWriterTest {
         Assertions.assertEquals(row5.getCell(0).toString(), "21:00");
         Assertions.assertEquals(row5.getCell(1).getNumericCellValue(), expectedNumberOfMessagesHour4);
     }
-
 
     private Sheet getWorkbookSheet(String conversationName, String sheetName) throws IOException {
         String outputFile = Constants.EXCEL_OUTPUT_FOLDER + conversationName + "-" + java.time.LocalDate.now()
