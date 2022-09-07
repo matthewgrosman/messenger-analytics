@@ -115,7 +115,7 @@ public class ExcelWriter {
         // If we leave this as null, the output filename will be "null-2022-08-07...", so we change it
         // to "All-Conversations" for a better filename.
         if (conversationName == null) {
-            conversationName = "All-Conversations";
+            conversationName = Constants.EXCEL_ALL_CONVERSATIONS_FILE_PREFIX;
         }
 
         // Create a unique file name in the format of conversationName + the current date and time.

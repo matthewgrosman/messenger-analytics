@@ -69,6 +69,9 @@ public final class Constants {
     public static final String EXCEL_TOTAL_MESSAGES = "TotalNumberOfMessages";
     public static final String EXCEL_NUM_MESSAGES_COLUMN_NAME = "NumberOfMessages";
 
+    //
+    public static final String EXCEL_ALL_CONVERSATIONS_FILE_PREFIX = "All-Conversations";
+
     // Excel column numbers.
     public static final int EXCEL_NAME_COLUMN_NUMBER = 0;
     public static final int EXCEL_DATA_COLUMN_NUMBER = 1;
