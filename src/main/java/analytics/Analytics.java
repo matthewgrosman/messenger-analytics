@@ -53,22 +53,28 @@ public class Analytics {
         }
     }
 
-    public static void main(String[] args) throws InvalidConversationNameException, InvalidDateFormatException, IOException {
-        // Open MongoDB client.
-        MongoDBClient.getMongoDBConnection(Constants.MONGO_COLLECTION_NAME_PROD);
-
-        // Gets user input.
+    /**
+     * Gets conversation name from a user input. If the user leaves the input blank, that means we aggregate data
+     * from all conversations.
+     *
+     * @return  A String representing the conversation name.
+     */
+    public static String getConversationName() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter person or conversation name, or leave blank for analytics aggregated across all conversations: ");
         String input = scanner.nextLine();
-        String conversationName = (input.equals("")) ? null : input;
         scanner.close();
 
-        // Get the conversation data and write it to an Excel file.
+        return (input.equals("")) ? null : input;
+    }
+
+    public static void main(String[] args) throws InvalidConversationNameException, InvalidDateFormatException, IOException {
+        MongoDBClient.getMongoDBConnection(Constants.MONGO_COLLECTION_NAME_PROD);
+
+        String conversationName = getConversationName();
         ConversationData conversationData = getConversationData(conversationName);
         ExcelWriter.writeToExcel(conversationName, conversationData);
 
-        // Close MongoDB client.
         MongoDBClient.closeMongoDBConnection();
     }
 }

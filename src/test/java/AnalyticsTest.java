@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import shared.Constants;
 import shared.MongoDBClient;
 
+import java.io.ByteArrayInputStream;
+
 public class AnalyticsTest {
     @BeforeAll
     static void establishMongoConnection() {
@@ -189,5 +191,23 @@ public class AnalyticsTest {
         Assertions.assertEquals(actualMessagesPerHour2, expectedMessagesPerHour2);
         Assertions.assertEquals(actualMessagesPerHour3, expectedMessagesPerHour3);
         Assertions.assertEquals(actualMessagesPerHour4, expectedMessagesPerHour4);
+    }
+
+    @Test
+    public void testGetConversationNameWithInput() {
+        ByteArrayInputStream in = new ByteArrayInputStream(UnitTestConstants.VALID_INDIVIDUAL_CONVERSATION.getBytes());
+        System.setIn(in);
+
+        String conversationName = Analytics.getConversationName();
+        Assertions.assertEquals(conversationName, UnitTestConstants.VALID_INDIVIDUAL_CONVERSATION);
+    }
+
+    @Test
+    public void testGetConversationNameWithBlankInput() {
+        ByteArrayInputStream in = new ByteArrayInputStream("\n".getBytes());
+        System.setIn(in);
+
+        String conversationName = Analytics.getConversationName();
+        Assertions.assertNull(conversationName);
     }
 }
