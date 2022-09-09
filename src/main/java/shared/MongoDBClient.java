@@ -25,4 +25,13 @@ public class MongoDBClient {
     public static void closeMongoDBConnection() {
         mongoClient.close();
     }
+
+    /**
+     * Checks if there are messages in the MongoDB messages collection.
+     *
+     * @return  A boolean denoting if the collection is empty or not.
+     */
+    public static boolean isMongoDBCollectionEmpty() {
+        return messagesCollection.countDocuments() == 0;
+    }
 }

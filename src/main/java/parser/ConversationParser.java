@@ -114,18 +114,21 @@ public class ConversationParser {
         return messagesDirectory.listFiles((dir, name) -> !name.equals(".DS_Store"));
     }
 
-    public static void main(String[] args) throws IOException {
+    /**
+     * Populates the MongoDB messages collection with all message data from Facebook
+     * Messenger
+     *
+     * @throws IOException  Can throw an IOException due to parseConversationFolderFiles()
+     */
+    public static void populateMongoDBCollection() throws IOException {
         File[] conversations = getConversationFolders(Constants.MESSAGES_FOLDER);
 
         if (conversations != null) {
-            MongoDBClient.getMongoDBConnection(Constants.MONGO_COLLECTION_NAME_PROD);
-
+            System.out.println(Constants.CONVERSATION_PARSER_LOADING_MESSAGE);
             for (File conversation : conversations) {
                 ArrayList<Document> messages = parseConversationFolderFiles(conversation);
                 MongoDBWriter.writeMessageDataDocuments(messages);
             }
-
-            MongoDBClient.closeMongoDBConnection();
         }
     }
 }

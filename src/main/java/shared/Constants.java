@@ -84,4 +84,8 @@ public final class Constants {
 
     // User input prompt
     public static final String USER_INPUT_PROMPT = "Enter person or conversation name, or leave blank for analytics aggregated across all conversations: ";
+
+    // Loading status messages
+    public static final String CONVERSATION_PARSER_LOADING_MESSAGE = "Parsing conversation files and writing to MongoDB...";
+    public static final String ANALYTICS_LOADING_MESSAGE = "Generating analytics and writing to Excel output file...";
 }

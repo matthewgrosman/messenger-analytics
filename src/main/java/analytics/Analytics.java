@@ -68,13 +68,17 @@ public class Analytics {
         return (input.equals("")) ? null : input;
     }
 
-    public static void main(String[] args) throws InvalidConversationNameException, InvalidDateFormatException, IOException {
-        MongoDBClient.getMongoDBConnection(Constants.MONGO_COLLECTION_NAME_PROD);
-
+    /**
+     * Generates analytics from Facebook Messenger data in MongoDB and writes those analytics to an Excel file.
+     *
+     * @throws InvalidConversationNameException Can throw from getConversationData()
+     * @throws InvalidDateFormatException       Can throw from getConversationData()
+     * @throws IOException                      Can throw from writeToExcel()
+     */
+    public static void generateAnalyticExcelFiles() throws InvalidConversationNameException, InvalidDateFormatException, IOException {
         String conversationName = getConversationName();
+        System.out.println(Constants.ANALYTICS_LOADING_MESSAGE);
         ConversationData conversationData = getConversationData(conversationName);
         ExcelWriter.writeToExcel(conversationName, conversationData);
-
-        MongoDBClient.closeMongoDBConnection();
     }
 }
