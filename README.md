@@ -23,7 +23,7 @@ The project uses MongoDB to store all of the neccesary Facebook Messenger messag
 
 4. Change the "MESSAGES_FOLDER" and "EXCEL_OUTPUT_FOLDER" variables in shared/Constants.java. The first variable "MESSAGES_DIRECTORY" points to the inbox directory in the download Facebook provided. The project expects that this is the directory given from this variable, so update it to whatever file path that is on your machine. The second variable, "EXCEL_OUTPUT_FOLDER" points to where you want analytic Excel files written to on your machine, this directory can be anywhere you like.
 
-5. Run "ConversationParser.java", and once that is completed without any exceptions, run "Analytics.java". Either enter a conversation name (i.e. the name of an individual conversation like "John Smith", or a group chat like "My Group Chat", or simply leave the input blank and press enter to generate analytics aggregated across all conversations.).
+5. Run "MessengerAnalyticGenerator.java"
 
 6. Go to the Excel output file, and your Facebook Messenger analytics data is there!
 
