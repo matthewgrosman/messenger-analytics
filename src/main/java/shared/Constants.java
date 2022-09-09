@@ -81,4 +81,7 @@ public final class Constants {
 
     // Excel file extension
     public static final String EXCEL_FILE_EXTENSION = ".xlsx";
+
+    // User input prompt
+    public static final String USER_INPUT_PROMPT = "Enter person or conversation name, or leave blank for analytics aggregated across all conversations: ";
 }

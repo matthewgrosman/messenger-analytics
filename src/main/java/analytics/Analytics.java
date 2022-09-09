@@ -61,7 +61,7 @@ public class Analytics {
      */
     public static String getConversationName() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter person or conversation name, or leave blank for analytics aggregated across all conversations: ");
+        System.out.print(Constants.USER_INPUT_PROMPT);
         String input = scanner.nextLine();
         scanner.close();
 
