@@ -7,6 +7,10 @@ import shared.Constants;
 import shared.MongoDBClient;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class AnalyticsTest {
     @BeforeAll
@@ -209,5 +213,41 @@ public class AnalyticsTest {
 
         String conversationName = Analytics.getConversationName();
         Assertions.assertNull(conversationName);
+    }
+
+    @Test
+    public void testGenerateAnalyticExcelFileWithIndividualConversation() throws InvalidConversationNameException, InvalidDateFormatException, IOException {
+        ByteArrayInputStream in = new ByteArrayInputStream(UnitTestConstants.VALID_INDIVIDUAL_CONVERSATION.getBytes());
+        System.setIn(in);
+
+        Analytics.generateAnalyticExcelFile();
+
+        String outputFile = Constants.EXCEL_OUTPUT_FOLDER + UnitTestConstants.VALID_INDIVIDUAL_CONVERSATION
+                + "-" + java.time.LocalDate.now() + Constants.EXCEL_FILE_EXTENSION;
+        Path path = Paths.get(outputFile);
+        Assertions.assertTrue(Files.exists(path));
+    }
+
+    @Test
+    public void testGenerateAnalyticExcelFileWithAllConversations() throws InvalidConversationNameException, InvalidDateFormatException, IOException {
+        ByteArrayInputStream in = new ByteArrayInputStream(UnitTestConstants.VALID_INDIVIDUAL_CONVERSATION.getBytes());
+        System.setIn(in);
+
+        Analytics.generateAnalyticExcelFile();
+
+        String outputFile = Constants.EXCEL_OUTPUT_FOLDER + Constants.EXCEL_ALL_CONVERSATIONS_FILE_PREFIX
+                + "-" + java.time.LocalDate.now() + Constants.EXCEL_FILE_EXTENSION;
+        Path path = Paths.get(outputFile);
+        Assertions.assertTrue(Files.exists(path));
+    }
+
+    @Test
+    public void testGenerateAnalyticExcelFileWithInvalidConversation() throws InvalidConversationNameException, InvalidDateFormatException, IOException {
+        String invalidConversationName = "someRandomConversationThatDoesntExist";
+        ByteArrayInputStream in = new ByteArrayInputStream(invalidConversationName.getBytes());
+        System.setIn(in);
+
+        Assertions.assertThrows(InvalidConversationNameException.class, () ->
+                Analytics.generateAnalyticExcelFile());
     }
 }

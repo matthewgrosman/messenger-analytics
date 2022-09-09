@@ -75,7 +75,7 @@ public class Analytics {
      * @throws InvalidDateFormatException       Can throw from getConversationData()
      * @throws IOException                      Can throw from writeToExcel()
      */
-    public static void generateAnalyticExcelFiles() throws InvalidConversationNameException, InvalidDateFormatException, IOException {
+    public static void generateAnalyticExcelFile() throws InvalidConversationNameException, InvalidDateFormatException, IOException {
         String conversationName = getConversationName();
         System.out.println(Constants.ANALYTICS_LOADING_MESSAGE);
         ConversationData conversationData = getConversationData(conversationName);

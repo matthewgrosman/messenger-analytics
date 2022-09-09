@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import parser.ConversationParser;
 import shared.Constants;
+import shared.MongoDBClient;
 
 import java.io.File;
 import java.io.IOException;
@@ -179,5 +180,20 @@ public class ConversationParserTest {
         File validConversationPath = new File("src/test/93048242m2mc423mc20c/SOMEINVALIDPATHTHATDOESNTEXIST");
         Assertions.assertThrows(NullPointerException.class, () ->
                 ConversationParser.parseConversationFolderFiles(validConversationPath));
+    }
+
+    @Test
+    public void testPopulateMongoDBCollection() throws IOException {
+        MongoDBClient.getMongoDBConnection(Constants.MONGO_COLLECTION_NAME_TEST + java.time.LocalDateTime.now());
+
+        long documentCount = MongoDBClient.messagesCollection.countDocuments();
+        Assertions.assertEquals(0, documentCount);
+
+        ConversationParser.populateMongoDBCollection();
+
+        documentCount = MongoDBClient.messagesCollection.countDocuments();
+        Assertions.assertTrue(documentCount > 0);
+
+        MongoDBClient.closeMongoDBConnection();
     }
 }

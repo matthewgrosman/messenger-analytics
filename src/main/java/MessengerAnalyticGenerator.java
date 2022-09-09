@@ -15,7 +15,7 @@ public class MessengerAnalyticGenerator {
             ConversationParser.populateMongoDBCollection();
         }
 
-        Analytics.generateAnalyticExcelFiles();
+        Analytics.generateAnalyticExcelFile();
 
         MongoDBClient.closeMongoDBConnection();
     }
