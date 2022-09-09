@@ -92,12 +92,7 @@ public class MongoDBWriterTest {
         MongoDBWriter.writeMessageDataDocuments(messages);
 
         // This grabs the messages from MongoDB in the form of an iterator
-        FindIterable<Document> conversationMessages = MongoDBClient.messagesCollection.find();
-
-        int messageCount = 0;
-        for (Document message : conversationMessages) {
-            messageCount++;
-        }
+        long messageCount = MongoDBClient.messagesCollection.countDocuments();
 
         Assertions.assertEquals(messageCount, 0);
     }
