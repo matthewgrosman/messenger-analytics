@@ -2,7 +2,6 @@ package analytics;
 
 import excel.ExcelWriter;
 import shared.Constants;
-import shared.MongoDBClient;
 
 import java.io.IOException;
 import java.util.Scanner;

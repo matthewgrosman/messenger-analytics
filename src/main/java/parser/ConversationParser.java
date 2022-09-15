@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FilenameUtils;
 import org.bson.Document;
 import shared.Constants;
-import shared.MongoDBClient;
 
 public class ConversationParser {
     /**
