@@ -1,7 +1,7 @@
 import analytics.Analytics;
 import analytics.ConversationData;
-import analytics.InvalidConversationNameException;
-import analytics.InvalidDateFormatException;
+import exceptions.InvalidConversationNameException;
+import exceptions.InvalidDateFormatException;
 import excel.ExcelWriter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import shared.Constants;
-import shared.MongoDBClient;
+import mongodb.MongoDBClient;
 
 import java.io.FileInputStream;
 import java.io.IOException;

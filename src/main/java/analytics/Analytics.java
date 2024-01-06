@@ -1,6 +1,8 @@
 package analytics;
 
 import excel.ExcelWriter;
+import exceptions.InvalidConversationNameException;
+import exceptions.InvalidDateFormatException;
 import shared.Constants;
 
 import java.io.IOException;
@@ -44,8 +46,8 @@ public class Analytics {
         // user does not want to filter down to a specific conversation (meaning conversationName is null
         // and they want aggregated conversation data), or if a user does want to filter down analytics,
         // then the conversation is valid.
-        if (conversationName == null || ConversationDataMongoDB.isConversationValid(conversationName)) {
-            return ConversationDataMongoDB.getConversationData(conversationName);
+        if (conversationName == null || ConversationDataUtil.isConversationValid(conversationName)) {
+            return ConversationDataUtil.getConversationData(conversationName);
         }
         else {
             throw new InvalidConversationNameException(Constants.INVALID_CONV_NAME_EXCEPTION_MESSAGE + conversationName);

@@ -1,8 +1,9 @@
-package shared;
+package mongodb;
 
 import com.mongodb.client.*;
 
 import org.bson.Document;
+import shared.Constants;
 
 public class MongoDBClient {
     private static MongoClient mongoClient;

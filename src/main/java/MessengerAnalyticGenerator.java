@@ -1,9 +1,9 @@
 import analytics.Analytics;
-import analytics.InvalidConversationNameException;
-import analytics.InvalidDateFormatException;
+import exceptions.InvalidConversationNameException;
+import exceptions.InvalidDateFormatException;
 import parser.ConversationParser;
 import shared.Constants;
-import shared.MongoDBClient;
+import mongodb.MongoDBClient;
 
 import java.io.IOException;
 

@@ -1,15 +1,15 @@
 import analytics.ConversationData;
-import analytics.ConversationDataMongoDB;
-import analytics.InvalidDateFormatException;
+import analytics.ConversationDataUtil;
+import exceptions.InvalidDateFormatException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import shared.Constants;
-import shared.MongoDBClient;
+import mongodb.MongoDBClient;
 
-public class ConversationDataMongoDBTest {
+public class ConversationDataUtilTest {
     @BeforeAll
     static void establishMongoConnection() {
         MongoDBClient.getMongoDBConnection(Constants.MONGO_COLLECTION_NAME_TEST);
@@ -22,27 +22,27 @@ public class ConversationDataMongoDBTest {
 
     @Test
     public void testIsConversationValidWithValidSingleConversation() {
-        boolean result = ConversationDataMongoDB.isConversationValid(UnitTestConstants.VALID_INDIVIDUAL_CONVERSATION);
+        boolean result = ConversationDataUtil.isConversationValid(UnitTestConstants.VALID_INDIVIDUAL_CONVERSATION);
         Assertions.assertTrue(result);
     }
 
     @Test
     public void testIsConversationValidWithValidGroupConversation() {
-        boolean result = ConversationDataMongoDB.isConversationValid(UnitTestConstants.VALID_GROUP_CONVERSATION);
+        boolean result = ConversationDataUtil.isConversationValid(UnitTestConstants.VALID_GROUP_CONVERSATION);
         Assertions.assertTrue(result);
     }
 
     @Test
     public void testIsConversationValidWithInvalidConversation() {
         String invalidConversationName = "ksjj0948j322j9842hhji-r320rc2+?23344BC";
-        boolean result = ConversationDataMongoDB.isConversationValid(invalidConversationName);
+        boolean result = ConversationDataUtil.isConversationValid(invalidConversationName);
         Assertions.assertFalse(result);
     }
 
     @Test
     public void testGetConversationDataWithIndividualConversation() throws InvalidDateFormatException {
         // This tests single conversation level data.
-        ConversationData conversationData = ConversationDataMongoDB.getConversationData(
+        ConversationData conversationData = ConversationDataUtil.getConversationData(
                 UnitTestConstants.VALID_INDIVIDUAL_CONVERSATION);
 
         String sender1 = "Person1";
@@ -91,7 +91,7 @@ public class ConversationDataMongoDBTest {
     @Test
     public void testGetConversationDataWithGroupConversation() throws InvalidDateFormatException {
         // This tests single conversation level data.
-        ConversationData conversationData = ConversationDataMongoDB.getConversationData(
+        ConversationData conversationData = ConversationDataUtil.getConversationData(
                 UnitTestConstants.VALID_GROUP_CONVERSATION);
 
         String sender1 = "Steven Juana";
@@ -141,7 +141,7 @@ public class ConversationDataMongoDBTest {
     @Test
     public void testGetConversationDataWithNullConversationName() throws InvalidDateFormatException {
         // This tests aggregated across all conversations data.
-        ConversationData conversationData = ConversationDataMongoDB.getConversationData(null);
+        ConversationData conversationData = ConversationDataUtil.getConversationData(null);
 
         String sender1 = "Steven Juana";
         String sender2 = "Matthew Grosman";

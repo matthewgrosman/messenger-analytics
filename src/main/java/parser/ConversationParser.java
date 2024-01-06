@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import mongodb.MongoDBWriter;
 import org.apache.commons.io.FilenameUtils;
 import org.bson.Document;
 import shared.Constants;

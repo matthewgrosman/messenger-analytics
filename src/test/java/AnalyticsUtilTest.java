@@ -1,6 +1,6 @@
 import analytics.AnalyticsUtil;
 import analytics.ConversationData;
-import analytics.InvalidDateFormatException;
+import exceptions.InvalidDateFormatException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

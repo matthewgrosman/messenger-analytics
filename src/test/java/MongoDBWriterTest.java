@@ -5,9 +5,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import parser.ConversationParser;
-import parser.MongoDBWriter;
+import mongodb.MongoDBWriter;
 import shared.Constants;
-import shared.MongoDBClient;
+import mongodb.MongoDBClient;
 
 import java.io.File;
 import java.io.IOException;

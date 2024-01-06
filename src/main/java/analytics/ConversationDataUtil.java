@@ -2,11 +2,12 @@ package analytics;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;
+import exceptions.InvalidDateFormatException;
 import org.bson.Document;
 import shared.Constants;
-import shared.MongoDBClient;
+import mongodb.MongoDBClient;
 
-public class ConversationDataMongoDB {
+public class ConversationDataUtil {
     /**
      * Gets all relevant conversation data for the current conversation. This includes getting data on
      * conversation message counts, message senders, the months that messages were sent, the days of

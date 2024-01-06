@@ -1,7 +1,6 @@
-package parser;
+package mongodb;
 
 import org.bson.Document;
-import shared.MongoDBClient;
 
 import java.util.ArrayList;
 

@@ -1,5 +1,6 @@
 package analytics;
 
+import exceptions.InvalidDateFormatException;
 import org.bson.Document;
 import shared.Constants;
 

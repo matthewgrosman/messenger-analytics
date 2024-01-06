@@ -1,10 +1,12 @@
 import analytics.*;
+import exceptions.InvalidConversationNameException;
+import exceptions.InvalidDateFormatException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import shared.Constants;
-import shared.MongoDBClient;
+import mongodb.MongoDBClient;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
